@@ -70,11 +70,10 @@ function PricingSection(props) {
               title="Starter"
               pricing={
                 <span>
-                  $14.99
-                  <Typography display="inline"> / month</Typography>
+                  Free
                 </span>
               }
-              features={["Feature 1", "Feature 2", "Feature 3"]}
+              features={["Business Hours", "Location", "Specials"]}
             />
           </Grid>
           <Grid
@@ -95,7 +94,7 @@ function PricingSection(props) {
                   <Typography display="inline"> / month</Typography>
                 </span>
               }
-              features={["Feature 1", "Feature 2", "Feature 3"]}
+              features={["All Starter features", "Data Analytics", "100% Voiceover"]}
             />
           </Grid>
           <Grid
@@ -115,7 +114,7 @@ function PricingSection(props) {
                   <Typography display="inline"> / month</Typography>
                 </span>
               }
-              features={["Feature 1", "Feature 2", "Feature 3"]}
+              features={["All Premium features", "Pickup & Delivery", "Email & SMS Integration"]}
             />
           </Grid>
           <Grid
@@ -135,7 +134,7 @@ function PricingSection(props) {
                   <Typography display="inline"> / month</Typography>
                 </span>
               }
-              features={["Feature 1", "Feature 2", "Feature 3"]}
+              features={["All Business features", "POS Integrations", "Custom Q&A"]}
             />
           </Grid>
         </Grid>

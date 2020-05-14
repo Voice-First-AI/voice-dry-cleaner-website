@@ -18,84 +18,57 @@ const iconSize = 30;
 const features = [
   {
     color: "#00C853",
-    headline: "Feature 1",
+    headline: "100% Voiceover",
     text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
+      "All you. All your brand. All the time. No synthetic, robot, voice. Record your voiceover and seperate yourself from your competition with your, unique, brand.",
     icon: <BuildIcon style={{ fontSize: iconSize }} />,
     mdDelay: "0",
     smDelay: "0"
   },
   {
     color: "#6200EA",
-    headline: "Feature 2",
+    headline: "Specials",
     text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
+      "What are your specials? Update your daily, weekly, and monthly specials to keep your customers coming back for the hottest deals.",
     icon: <CalendarTodayIcon style={{ fontSize: iconSize }} />,
     mdDelay: "200",
     smDelay: "200"
   },
   {
     color: "#0091EA",
-    headline: "Feature 3",
+    headline: "Business Hours",
     text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
+      "Add your business hours to Amazon Alexa. Reduce phone calls and let Alexa answer your customers' questions.",
     icon: <MeassageIcon style={{ fontSize: iconSize }} />,
     mdDelay: "400",
     smDelay: "0"
   },
   {
     color: "#d50000",
-    headline: "Feature 4",
+    headline: "Location",
     text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
+      "Add your business location to Amazon Alexa. Reduce phone calls and let Alexa answer your customers' questions.",
     icon: <ComputerIcon style={{ fontSize: iconSize }} />,
     mdDelay: "0",
     smDelay: "200"
   },
   {
     color: "#DD2C00",
-    headline: "Feature 5",
+    headline: "Pickup & Delivery",
     text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
+      "Alexa will take pickup & delivery requests and send them to your business via SMS & email each time a customer places a new pickup or delivery order.",
     icon: <BarChartIcon style={{ fontSize: iconSize }} />,
     mdDelay: "200",
     smDelay: "0"
   },
   {
     color: "#64DD17",
-    headline: "Feature 6",
+    headline: "Customer Analytics",
     text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
+      "View your dashboard to see how to improve your business and learn which devices your customers are using.",
     icon: <HeadsetMicIcon style={{ fontSize: iconSize }} />,
     mdDelay: "400",
     smDelay: "200"
-  },
-  {
-    color: "#304FFE",
-    headline: "Feature 7",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <CloudIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "0",
-    smDelay: "0"
-  },
-  {
-    color: "#C51162",
-    headline: "Feature 8",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <CodeIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "200",
-    smDelay: "200"
-  },
-  {
-    color: "#00B8D4",
-    headline: "Feature 9",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <CancelIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "400",
-    smDelay: "0"
   }
 ];
 
