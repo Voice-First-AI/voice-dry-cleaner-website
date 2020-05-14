@@ -72,9 +72,28 @@ function addNewCleanerToFirebaseAndAdmin(cleanerName, phoneNumber) {
   })
   .then(function() {// Successfully Created Cleaner! 
       //Cleaner successfully added
+      addCleanerToAdmin(cleanerName, phoneNumber)
   })
   .catch(function(error) {
       console.error("Error creating new cleaner: ", error);
+  });
+}
+
+//
+//  addCleanerToAdmin Check if user is authorized to add EXISTING dry cleaner
+//
+function addCleanerToAdmin(cleanerName, phoneNumber) {
+  const user = firebase.auth().currentUser;
+  // Add a new document in collection "admins"
+  db.collection("admins").doc(user.uid).set({
+      company: cleanerName,
+      phoneNumber: phoneNumber
+  })
+  .then(function() {
+      console.log("Document successfully written!");
+  })
+  .catch(function(error) {
+      console.error("Error writing document: ", error);
   });
 }
 
