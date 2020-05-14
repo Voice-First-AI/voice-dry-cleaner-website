@@ -47,8 +47,7 @@ const styles = theme => ({
 });
 
 function NewFreeCleanerSection(props) {
-  const { width, classes, btnClickFx, user } = props;
-  alert(user)
+  const { width, classes, btnClickFx } = props;
   const cleanerName = useRef();
   const cleanerPhoneNumber = useRef();
   return (

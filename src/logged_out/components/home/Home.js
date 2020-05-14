@@ -11,22 +11,6 @@ const serviceAccount = require("../../../serviceAccountKey.json");
 firebase.initializeApp(serviceAccount);
 let db = firebase.firestore();
 
-
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    alert("SIGNED IN")
-    // firebase.auth().signOut().then(function() {
-    //   // Sign-out successful.
-    // }).catch(function(error) {
-    //   // An error happened.
-    // });
-  } else {
-    // No user is signed in.
-    alert("NOT SIGNED IN")
-  }
-});
-
 function Home(props) {
   const { selectHome } = props;
   useEffect(() => {
@@ -87,40 +71,11 @@ function addNewCleanerToFirebaseAndAdmin(cleanerName, phoneNumber) {
         creatorPhoto: user.photoURL,
   })
   .then(function() {// Successfully Created Cleaner! 
-      //Add Cleaner to User Profile
-      // addCleanerToAdmin(cleanerName)
-      alert(cleanerName + " ADDED TO FIREBASE! Great work :)")
+      //Cleaner successfully added
   })
   .catch(function(error) {
       console.error("Error creating new cleaner: ", error);
   });
-}
-
-// //
-// //  addCleanerToAdmin Check if user is authorized to add EXISTING dry cleaner
-// //
-// function addCleanerToAdmin(cleaner) {
-//   const dryCleaner = cleaner;
-//   console.log("CLEANER: " + dryCleaner)
-//   // Add a new document in collection "admins"
-//   db.collection("admins").doc(user.uid).set({
-//       cleaner: dryCleaner,
-//       phoneNumber: $("#phoneNumber").val()
-//   })
-//   .then(function() {
-//       console.log("Document successfully written!");
-//       sendCustomerHome()
-//   })
-//   .catch(function(error) {
-//       console.error("Error writing document: ", error);
-//   });
-// }
-
-// 
-// sendCustomerHome - send customer to main dashboard with connected cleaner
-// 
-function sendCustomerHome() {
-  window.location.replace("../home")
 }
 
 Home.propTypes = {

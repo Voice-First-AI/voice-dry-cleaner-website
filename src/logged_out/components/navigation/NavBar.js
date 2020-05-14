@@ -16,6 +16,7 @@ import HowToRegIcon from "@material-ui/icons/HowToReg";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import BookIcon from "@material-ui/icons/Book";
 import NavigationDrawer from "../../../shared/components/NavigationDrawer";
+import firebase from 'firebase';
 
 const styles = theme => ({
   appBar: {
@@ -55,19 +56,19 @@ function NavBar(props) {
       name: "Home",
       icon: <HomeIcon className="text-white" />
     },
+    // {
+    //   link: "/blog",
+    //   name: "Blog",
+    //   icon: <BookIcon className="text-white" />
+    // },
     {
-      link: "/blog",
-      name: "Blog",
-      icon: <BookIcon className="text-white" />
-    },
-    {
-      name: "Register",
+      name: "SignUp / Login",
       onClick: openRegisterDialog,
       icon: <HowToRegIcon className="text-white" />
     },
     {
-      name: "Login",
-      onClick: openLoginDialog,
+      name: "Logout",
+      onClick: () => {firebase.auth().signOut()},
       icon: <LockOpenIcon className="text-white" />
     }
   ];
