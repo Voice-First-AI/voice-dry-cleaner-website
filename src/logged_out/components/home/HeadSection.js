@@ -123,8 +123,7 @@ function HeadSection(props) {
                         <Typography
                           variant={isWidthUp("lg", width) ? "h3" : "h4"}
                         >
-                          Free Template for building an SaaS app using
-                          Material-UI
+                          Free Amazon Alexa Skills for Cleaners
                         </Typography>
                       </Box>
                       <div>
@@ -133,8 +132,7 @@ function HeadSection(props) {
                             variant={isWidthUp("lg", width) ? "h6" : "body1"}
                             color="textSecondary"
                           >
-                            Lorem ipsum dolor sit amet, consetetur sadipscing
-                            elitr, sed diam nonumy eirmod tempor invidunt
+                            Built by dry cleaners for dry cleaners, wash-n-fold services, house cleaning services, and any other home services! Perfect for post-pandemic growth.
                           </Typography>
                         </Box>
                         <Button
@@ -143,20 +141,16 @@ function HeadSection(props) {
                           fullWidth
                           className={classes.extraLargeButton}
                           classes={{ label: classes.extraLargeButtonLabel }}
-                          href="https://github.com/dunky11/react-saas-template"
+                          href="https://www.facebook.com/VoiceDryCleaner/"
                         >
-                          Download from GitHub
+                          Find us on Facebook
                         </Button>
                       </div>
                     </Box>
                   </Grid>
                   <Hidden smDown>
                     <Grid item md={6}>
-                      <img
-                        src={headerImage}
-                        className={classes.image}
-                        alt="header example"
-                      />
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/3ojo4S8RG1M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </Grid>
                   </Hidden>
                 </Box>
