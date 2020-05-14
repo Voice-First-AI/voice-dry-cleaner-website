@@ -6,9 +6,6 @@ import {
 import FormDialog from "../../../shared/components/FormDialog";
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-var serviceAccount = require("../../../serviceAccountKey.json");
-
-firebase.initializeApp(serviceAccount);
 
 // Configure FirebaseUI.
 const uiConfig = {
