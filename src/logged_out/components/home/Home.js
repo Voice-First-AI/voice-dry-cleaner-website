@@ -29,20 +29,25 @@ function Home(props) {
 function btnClickFx(cleanerName, cleanerPhoneNumber) {
   const newCleanerName = cleanerName.current.value.toLowerCase();
   const newCleanerPhoneNumber = cleanerPhoneNumber.current.value;
-  if (isCleanerValid(newCleanerName)){ 
+  if (isCleanerValid(newCleanerName, newCleanerPhoneNumber)){ 
     addNewCleanerToFirebaseAndAdmin(newCleanerName, newCleanerPhoneNumber);
   }
 }
 
-function isCleanerValid(cleanerName) {
-  alert("cleanerName: " + cleanerName);
+function isCleanerValid(cleanerName, cleanerPhoneNumber) {
   let isValid = true;
   if (cleanerName.trim().indexOf(' ') === -1) {
     isValid = false;
     alert("Amazon Alexa naming error: Cleaner name must be at least 2 words. Please update your cleaner name & try again.")
-  } if (cleanerName.length < 2 || cleanerName.length > 49) {
+  } else if (cleanerName.length < 2 || cleanerName.length > 49) {
     isValid = false;
     alert("Amazon Alexa naming error: Cleaner name must be between 2-50 characters. " + cleanerName + " is " + cleanerName.length + " characters long. Please update your cleaner name & try again.")
+  } else if (/\d/.test(cleanerName)){
+    isValid = false;
+    alert("Amazon Alexa naming error: Cleaner name must not contain any DIGITS[0-9]. Please rename any digits to their alphabetical spelling. Please update your cleaner name & try again.")
+  } else if (!cleanerPhoneNumber.match("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im")) {
+    isValid = false;
+    alert("Phone Error: Invalid phone number. Please update your cleaner phone number & try again.")
   }
   return isValid;
 }

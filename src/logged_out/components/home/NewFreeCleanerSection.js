@@ -79,7 +79,7 @@ function NewFreeCleanerSection(props) {
               autoFocus
               inputRef={cleanerName}
               autoComplete="off"
-              onChange={() => {
+              onChange={(change) => {
                 // TODO: Check for Valid Alexa Skill Naming Conventions
               }}
               FormHelperTextProps={{ error: true }}
