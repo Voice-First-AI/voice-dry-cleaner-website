@@ -11,6 +11,22 @@ const serviceAccount = require("../../../serviceAccountKey.json");
 firebase.initializeApp(serviceAccount);
 let db = firebase.firestore();
 
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    alert("SIGNED IN")
+    // firebase.auth().signOut().then(function() {
+    //   // Sign-out successful.
+    // }).catch(function(error) {
+    //   // An error happened.
+    // });
+  } else {
+    // No user is signed in.
+    alert("NOT SIGNED IN")
+  }
+});
+
 function Home(props) {
   const { selectHome } = props;
   useEffect(() => {
@@ -36,7 +52,10 @@ function btnClickFx(cleanerName, cleanerPhoneNumber) {
 
 function isCleanerValid(cleanerName, cleanerPhoneNumber) {
   let isValid = true;
-  if (cleanerName.trim().indexOf(' ') === -1) {
+  if (!firebase.auth().currentUser) {
+    isValid = false;
+    alert("User error: Must be signed in to create FREE cleaner. Please sign in and try again.")
+  } else if (cleanerName.trim().indexOf(' ') === -1) {
     isValid = false;
     alert("Amazon Alexa naming error: Cleaner name must be at least 2 words. Please update your cleaner name & try again.")
   } else if (cleanerName.length < 2 || cleanerName.length > 49) {
@@ -45,7 +64,7 @@ function isCleanerValid(cleanerName, cleanerPhoneNumber) {
   } else if (/\d/.test(cleanerName)){
     isValid = false;
     alert("Amazon Alexa naming error: Cleaner name must not contain any DIGITS[0-9]. Please rename any digits to their alphabetical spelling. Please update your cleaner name & try again.")
-  } else if (!cleanerPhoneNumber.match("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im")) {
+  } else if (!cleanerPhoneNumber.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)) {
     isValid = false;
     alert("Phone Error: Invalid phone number. Please update your cleaner phone number & try again.")
   }
@@ -56,15 +75,16 @@ function isCleanerValid(cleanerName, cleanerPhoneNumber) {
 // add new unique company and code to firebase
 // 
 function addNewCleanerToFirebaseAndAdmin(cleanerName, phoneNumber) {
+  const user = firebase.auth().currentUser;
   db.collection("dry-cleaners").doc(cleanerName).set({
         cleanerDisplayName: cleanerName,
         PhoneNumber: phoneNumber,
         companyCode: cleanerName,
-        // creatorFirebaseID: user.uid,
-        // creatorEmailVerified: user.emailVerified,
-        // creatorName: user.displayName,
-        // creatorEmail: user.email,
-        // creatorPhoto: user.photoURL,
+        creatorFirebaseID: user.uid,
+        creatorEmailVerified: user.emailVerified,
+        creatorName: user.displayName,
+        creatorEmail: user.email,
+        creatorPhoto: user.photoURL,
   })
   .then(function() {// Successfully Created Cleaner! 
       //Add Cleaner to User Profile
