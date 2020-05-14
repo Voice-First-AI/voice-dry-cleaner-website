@@ -78,11 +78,11 @@ const styles = theme => ({
 const infos = [
   {
     icon: <PhoneIcon />,
-    description: "+1 555 123456"
+    description: "+1 708 2031481"
   },
   {
     icon: <MailIcon />,
-    description: "support@company.com"
+    description: "support@voicedrycleaner.com"
   }
 ];
 
@@ -101,7 +101,7 @@ const socialIcons = [
       </svg>
     ),
     label: "Github",
-    href: "https://github.com/dunky11/react-saas-template"
+    href: "https://github.com/Voice-First-AI/voice-dry-cleaner-website"
   },
   {
     icon: (
@@ -117,7 +117,7 @@ const socialIcons = [
       </svg>
     ),
     label: "Facebook",
-    href: "https://facebook.com"
+    href: "https://www.facebook.com/VoiceDryCleaner/"
   },
   {
     icon: (
@@ -133,7 +133,7 @@ const socialIcons = [
       </svg>
     ),
     label: "LinkedIn",
-    href: "https://www.linkedin.com/"
+    href: "https://www.linkedin.com/company/voicefirsttech/"
   },
   {
     icon: (
@@ -149,7 +149,7 @@ const socialIcons = [
       </svg>
     ),
     label: "Twitter",
-    href: "https://www.twitter.com/"
+    href: "https://twitter.com/voicefirstai?lang=en"
   }
 ];
 
@@ -164,35 +164,8 @@ function Footer(props) {
       />
       <div className={classes.footerInner}>
         <Grid container spacing={isWidthUp("md", width) ? 10 : 5}>
-          <Grid item xs={12} md={6} lg={4}>
-            <form>
-              <Box display="flex" flexDirection="column">
-                <Box mb={1}>
-                  <TextField
-                    variant="outlined"
-                    multiline
-                    placeholder="Get in touch with us"
-                    inputProps={{ "aria-label": "Get in Touch" }}
-                    InputProps={{
-                      className: classes.whiteBg
-                    }}
-                    rows={4}
-                    fullWidth
-                    required
-                  />
-                </Box>
-                <ColoredButton
-                  color={theme.palette.common.white}
-                  variant="outlined"
-                  type="submit"
-                >
-                  Send Message
-                </ColoredButton>
-              </Box>
-            </form>
-          </Grid>
           <Hidden mdDown>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12} md={6} lg={6}>
               <Box display="flex" justifyContent="center">
                 <div>
                   {infos.map((info, index) => (
@@ -221,13 +194,12 @@ function Footer(props) {
               </Box>
             </Grid>
           </Hidden>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} lg={6}>
             <Typography variant="h6" paragraph className="text-white">
-              About the Company
+              About Voice Dry Cleaner
             </Typography>
             <Typography style={{ color: "#8f9296" }} paragraph>
-              Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce
-              euismod convallis velit, eu auctor lacus vehicula sit amet.
+              We are the only platform in the world for cleaners to put their business on Amazon Alexa for Free. Back in 2018, we were the first platform in the world to help dry cleaners create engaging experiences on Amazon Alexa. 
             </Typography>
             <Box display="flex">
               {socialIcons.map((socialIcon, index) => (
