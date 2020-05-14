@@ -78,7 +78,7 @@ function NavBar(props) {
               display="inline"
               color="primary"
             >
-              Wa
+              Voice
             </Typography>
             <Typography
               variant="h4"
@@ -86,7 +86,7 @@ function NavBar(props) {
               display="inline"
               color="secondary"
             >
-              Ver
+              Dry Cleaner
             </Typography>
           </div>
           <div>
