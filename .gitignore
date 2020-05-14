@@ -8,6 +8,12 @@ lerna-debug.log*
 .idea
 .vscode
 
+# Ignore Firebase Project-Specific Data
+serviceAccountKey.json
+.firebase/*
+.firebaserc
+firebase.json
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
