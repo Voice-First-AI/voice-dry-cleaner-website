@@ -55,7 +55,7 @@ function NewFreeCleanerSection(props) {
   const cleanerName = useRef();
   const cleanerPhoneNumber = useRef();
   return (
-    <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
+    <div id="freeCleaner" className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
       <Typography variant="h3" align="center" className="lg-mg-bottom">
         Create a New Free Cleaner on Amazon Alexa
       </Typography>

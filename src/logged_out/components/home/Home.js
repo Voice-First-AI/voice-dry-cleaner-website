@@ -32,7 +32,10 @@ function btnClickFx(cleanerName, cleanerPhoneNumber, setAlertValue, setSuccessAl
   const newCleanerName = cleanerName.current.value.toLowerCase();
   const newCleanerPhoneNumber = cleanerPhoneNumber.current.value;
   if (isCleanerValid(newCleanerName, newCleanerPhoneNumber, setAlertValue)){ 
+    setAlertValue(null);
     addNewCleanerToFirebaseAndAdmin(newCleanerName, newCleanerPhoneNumber, setSuccessAlertValue);
+  } else {
+    setSuccessAlertValue(null);
   }
 }
 
