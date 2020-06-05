@@ -19,7 +19,7 @@ import ColoredButton from "../../../shared/components/ColoredButton";
 
 const styles = theme => ({
   footerInner: {
-    backgroundColor: theme.palette.common.darkBlack,
+    backgroundColor: theme.palette.secondary.main,
     paddingTop: theme.spacing(8),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
@@ -159,7 +159,7 @@ function Footer(props) {
     <footer className="lg-p-top">
       <WaveBorder
         upperColor="#FFFFFF"
-        lowerColor={theme.palette.common.darkBlack}
+        lowerColor={theme.palette.secondary.main}
         animationNegativeDelay={4}
       />
       <div className={classes.footerInner}>
@@ -198,7 +198,7 @@ function Footer(props) {
             <Typography variant="h6" paragraph className="text-white">
               About Voice Dry Cleaner
             </Typography>
-            <Typography style={{ color: "#8f9296" }} paragraph>
+            <Typography style={{ color: "#FFFFFF" }} paragraph>
               We are the only platform in the world for cleaners to put their business on Amazon Alexa for Free. Back in 2018, we were the first platform in the world to help dry cleaners create engaging experiences on Amazon Alexa. 
             </Typography>
             <Box display="flex">

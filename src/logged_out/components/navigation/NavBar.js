@@ -16,6 +16,7 @@ import HowToRegIcon from "@material-ui/icons/HowToReg";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import BookIcon from "@material-ui/icons/Book";
 import NavigationDrawer from "../../../shared/components/NavigationDrawer";
+import smoothScrollTop from "../../../shared/functions/smoothScrollTop";
 import firebase from 'firebase';
 
 const styles = theme => ({
@@ -52,8 +53,8 @@ function NavBar(props) {
   } = props;
   const menuItems = [
     {
-      link: "/",
       name: "Home",
+      onClick: () => {smoothScrollTop()},
       icon: <HomeIcon className="text-white" />
     },
     {

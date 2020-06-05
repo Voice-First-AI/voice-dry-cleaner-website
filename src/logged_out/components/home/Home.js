@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import HeadSection from "./HeadSection";
 import FeatureSection from "./FeatureSection";
@@ -13,6 +13,8 @@ let db = firebase.firestore();
 
 function Home(props) {
   const { selectHome } = props;
+  const [value, setValue] = useState(null)
+  const [successAlert, setSuccessAlert] = useState(null)
   useEffect(() => {
     selectHome();
   }, [selectHome]);
@@ -21,36 +23,39 @@ function Home(props) {
       <HeadSection />
       <FeatureSection />
       <PricingSection />
-      <NewFreeCleanerSection btnClickFx={btnClickFx}/>
+      <NewFreeCleanerSection btnClickFx={btnClickFx} alertText={value} setAlertValue={setValue} alertValue={value} setSuccessAlertValue={setSuccessAlert} successAlertValue={successAlert}/>
     </Fragment>
   );
 }
 
-function btnClickFx(cleanerName, cleanerPhoneNumber) {
+function btnClickFx(cleanerName, cleanerPhoneNumber, setAlertValue, setSuccessAlertValue) {
   const newCleanerName = cleanerName.current.value.toLowerCase();
   const newCleanerPhoneNumber = cleanerPhoneNumber.current.value;
-  if (isCleanerValid(newCleanerName, newCleanerPhoneNumber)){ 
-    addNewCleanerToFirebaseAndAdmin(newCleanerName, newCleanerPhoneNumber);
+  if (isCleanerValid(newCleanerName, newCleanerPhoneNumber, setAlertValue)){ 
+    setAlertValue(null);
+    addNewCleanerToFirebaseAndAdmin(newCleanerName, newCleanerPhoneNumber, setSuccessAlertValue);
+  } else {
+    setSuccessAlertValue(null);
   }
 }
 
-function isCleanerValid(cleanerName, cleanerPhoneNumber) {
+function isCleanerValid(cleanerName, cleanerPhoneNumber, setAlertValue) {
   let isValid = true;
   if (!firebase.auth().currentUser) {
     isValid = false;
-    alert("User error: Must be signed in to create FREE cleaner. Please sign in and try again.")
+    setAlertValue("User error: Must be signed in to create FREE cleaner. Please sign in and try again.")
   } else if (cleanerName.trim().indexOf(' ') === -1) {
     isValid = false;
-    alert("Amazon Alexa naming error: Cleaner name must be at least 2 words. Please update your cleaner name & try again.")
+    setAlertValue("Name of Dry Cleaner must be at least 2 words. Please update your Name of Dry Cleaner & try again.")
   } else if (cleanerName.length < 2 || cleanerName.length > 49) {
     isValid = false;
-    alert("Amazon Alexa naming error: Cleaner name must be between 2-50 characters. " + cleanerName + " is " + cleanerName.length + " characters long. Please update your cleaner name & try again.")
+    setAlertValue("Name of Dry Cleaner must be between 2-50 characters. " + cleanerName + " is " + cleanerName.length + " characters long. Please update your Name of Dry Cleaner & try again.")
   } else if (/\d/.test(cleanerName)){
     isValid = false;
-    alert("Amazon Alexa naming error: Cleaner name must not contain any DIGITS[0-9]. Please rename any digits to their alphabetical spelling. Please update your cleaner name & try again.")
+    setAlertValue("Name of Dry Cleaner must not contain any DIGITS[0-9]. Please rename any digits to their alphabetical spelling. Please update your Name of Dry Cleaner & try again.")
   } else if (!cleanerPhoneNumber.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)) {
     isValid = false;
-    alert("Phone Error: Invalid phone number. Please update your cleaner phone number & try again.")
+    setAlertValue("Phone Error: Invalid phone number. Please update your cleaner phone number & try again.")
   }
   return isValid;
 }
@@ -58,7 +63,7 @@ function isCleanerValid(cleanerName, cleanerPhoneNumber) {
 //
 // add new unique company and code to firebase
 // 
-function addNewCleanerToFirebaseAndAdmin(cleanerName, phoneNumber) {
+function addNewCleanerToFirebaseAndAdmin(cleanerName, phoneNumber, setSuccessAlertValue) {
   const user = firebase.auth().currentUser;
   db.collection("dry-cleaners").doc(cleanerName).set({
         cleanerDisplayName: cleanerName,
@@ -72,7 +77,7 @@ function addNewCleanerToFirebaseAndAdmin(cleanerName, phoneNumber) {
   })
   .then(function() {// Successfully Created Cleaner! 
       //Cleaner successfully added
-      addCleanerToAdmin(cleanerName, phoneNumber)
+      addCleanerToAdmin(cleanerName, phoneNumber, setSuccessAlertValue)
   })
   .catch(function(error) {
       console.error("Error creating new cleaner: ", error);
@@ -82,7 +87,8 @@ function addNewCleanerToFirebaseAndAdmin(cleanerName, phoneNumber) {
 //
 //  addCleanerToAdmin Check if user is authorized to add EXISTING dry cleaner
 //
-function addCleanerToAdmin(cleanerName, phoneNumber) {
+function addCleanerToAdmin(cleanerName, phoneNumber, setSuccessAlertValue) {
+  setSuccessAlertValue("Your Voice Dry Cleaner, " + cleanerName + ", Alexa Skill is being created! This will take ~20 minutes. Check your email for the next steps.")
   const user = firebase.auth().currentUser;
   // Add a new document in collection "admins"
   db.collection("admins").doc(user.uid).set({

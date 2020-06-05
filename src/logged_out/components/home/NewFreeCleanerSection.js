@@ -10,6 +10,10 @@ import {
   TextField,
   Button
 } from "@material-ui/core";
+import { 
+  Alert,
+  AlertTitle
+} from '@material-ui/lab';
 import calculateSpacing from "./calculateSpacing";
 
 const styles = theme => ({
@@ -47,15 +51,26 @@ const styles = theme => ({
 });
 
 function NewFreeCleanerSection(props) {
-  const { width, classes, btnClickFx } = props;
+  const { width, classes, btnClickFx, alertText, setAlertValue, alertValue, successAlertValue, setSuccessAlertValue } = props;
   const cleanerName = useRef();
   const cleanerPhoneNumber = useRef();
   return (
-    <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
+    <div id="freeCleaner" className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
       <Typography variant="h3" align="center" className="lg-mg-bottom">
         Create a New Free Cleaner on Amazon Alexa
       </Typography>
+      
       <div className={classNames("container-fluid", classes.containerFix)}>
+        <Alert severity="error" style={{display: alertValue ? true : "none"}}>
+          <AlertTitle>Error</AlertTitle>
+          <strong>{alertText}</strong>
+        </Alert>
+
+        <Alert severity="success" style={{display: successAlertValue ? true : "none"}}>
+          <AlertTitle>Congrats!</AlertTitle>
+          <strong>{successAlertValue}</strong>
+        </Alert>
+
         <Grid
           container
           spacing={calculateSpacing(width)}
@@ -138,7 +153,7 @@ function NewFreeCleanerSection(props) {
                     fullWidth
                     className={classes.extraLargeButton}
                     classes={{ label: classes.extraLargeButtonLabel }}
-                    onClick={() => { btnClickFx(cleanerName, cleanerPhoneNumber)}}
+                    onClick={() => { btnClickFx(cleanerName, cleanerPhoneNumber, setAlertValue, setSuccessAlertValue)}}
                     >
                   Create Cleaner
                 </Button>

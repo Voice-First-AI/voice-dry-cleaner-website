@@ -10,7 +10,8 @@ import {
   Box,
   withStyles,
   withWidth,
-  isWidthUp
+  isWidthUp,
+  Link
 } from "@material-ui/core";
 import headerImage from "../../dummy_data/images/headerImage.jpg";
 import WaveBorder from "../../../shared/components/WaveBorder";
@@ -135,6 +136,18 @@ function HeadSection(props) {
                             Built by dry cleaners for dry cleaners, wash-n-fold services, house cleaning services, and any other home services! Perfect for post-pandemic growth.
                           </Typography>
                         </Box>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          fullWidth
+                          className={classes.extraLargeButton}
+                          classes={{ label: classes.extraLargeButtonLabel }}
+                          href="#freeCleaner"
+                        >             
+
+                          Get Started for FREE
+                        </Button>
+                        <p></p>
                         <Button
                           variant="contained"
                           color="secondary"
