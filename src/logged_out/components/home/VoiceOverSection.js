@@ -52,7 +52,7 @@ const styles = theme => ({
 });
 
 function VoiceOverSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue } = props;
+  const { width, classes, alertText, alertValue, successAlertValue, firebase } = props;
   const [recording, setRecordName] = useState("Record");
   const [recordingColor, setRecordingColor] = useState("primary");
   const [isRecording, setIsRecording] = useState(false);
@@ -74,6 +74,38 @@ function VoiceOverSection(props) {
     setRecordingColor("primary");
     setRecordName("Recording");
   };
+
+/**
+ * uploads MP3 url to firebase to user input or random if no input is provided.
+ */
+const uploadMP3 = async () => {
+  const storageRef = firebase.storage().ref();
+  alert(blobURL)
+  let file = await fetch(blobURL).then(r => r.blob());
+  let voiceOverFileName = "Script-1-Hello-World-Welcome-To-My-Cleaner";
+  if (voiceOverFileName.length > 0) {
+    voiceOverFileName = voiceOverFileName.replace(/[ ]/g, ".");
+    voiceOverFileName = voiceOverFileName + ".mp3";
+  }
+  const uploadTask = storageRef
+    .child(`voiceOver/${voiceOverFileName}`)
+    .put(file);
+  uploadTask.on(
+    "state_changed",
+    snapshot => {
+      const progressNumber = Math.round(
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      );
+      setProgress(progressNumber);
+    },
+    e => console.error(e),
+    () => {
+      alert("SUCCESSFUL UPLOAD")
+      setBlobURL("");
+    }
+  );
+};
+
 
   /**
    * sets BlobURL state to the incoming blob url.
@@ -222,8 +254,8 @@ function VoiceOverSection(props) {
                     fullWidth
                     className={classes.extraLargeButton}
                     classes={{ label: classes.extraLargeButtonLabel }}
-                    // onClick={uploadMP3}
-                    disabled={blobURL > 0}
+                    onClick={uploadMP3}
+                    disabled={blobURL.length < 5 || isRecording}
                   >
                     <b>Upload</b>
                   </Button>

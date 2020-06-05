@@ -25,7 +25,7 @@ function Home(props) {
       <FeatureSection />
       <PricingSection />
       <NewFreeCleanerSection btnClickFx={btnClickFx} alertText={value} setAlertValue={setValue} alertValue={value} setSuccessAlertValue={setSuccessAlert} successAlertValue={successAlert}/>
-      <VoiceOverSection btnClickFx={btnClickFx} alertText={value} setAlertValue={setValue} alertValue={value} setSuccessAlertValue={setSuccessAlert} successAlertValue={successAlert}/>
+      <VoiceOverSection firebase={firebase} btnClickFx={btnClickFx} alertText={value} setAlertValue={setValue} alertValue={value} setSuccessAlertValue={setSuccessAlert} successAlertValue={successAlert}/>
     </Fragment>
   );
 }
