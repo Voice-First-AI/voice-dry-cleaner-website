@@ -52,7 +52,7 @@ const styles = theme => ({
 });
 
 function VoiceOverSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue, firebase } = props;
+  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, getVoiceOverList, voiceOverScript } = props;
   const [recording, setRecordName] = useState("Record");
   const [recordingColor, setRecordingColor] = useState("primary");
   const [isRecording, setIsRecording] = useState(false);
@@ -80,15 +80,14 @@ function VoiceOverSection(props) {
  */
 const uploadMP3 = async () => {
   const storageRef = firebase.storage().ref();
-  alert(blobURL)
   let file = await fetch(blobURL).then(r => r.blob());
-  let voiceOverFileName = "Script-1-Hello-World-Welcome-To-My-Cleaner";
+  let voiceOverFileName = "welcome.speech";
   if (voiceOverFileName.length > 0) {
     voiceOverFileName = voiceOverFileName.replace(/[ ]/g, ".");
     voiceOverFileName = voiceOverFileName + ".mp3";
   }
   const uploadTask = storageRef
-    .child(`voiceOver/${voiceOverFileName}`)
+    .child(`dry-cleaners/${cleanerName}/voiceOver/${voiceOverFileName}`)
     .put(file);
   uploadTask.on(
     "state_changed",
@@ -102,6 +101,7 @@ const uploadMP3 = async () => {
     () => {
       alert("SUCCESSFUL UPLOAD")
       setBlobURL("");
+      getVoiceOverList();
     }
   );
 };
@@ -112,7 +112,6 @@ const uploadMP3 = async () => {
    * @param {*} recordedBlob - blob url of recorded audio stream.
    */
   const onStop = async (recordedBlob) => {
-    alert("blob recorded. display audio: " + recordedBlob)
     setBlobURL(recordedBlob);
   };
 
@@ -128,19 +127,44 @@ const uploadMP3 = async () => {
   return (
     <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
       <Typography variant="h3" align="center" className="lg-mg-bottom">
-        Premium Voiceover Recording for Your Cleaner on Amazon Alexa
+        Premium Voiceover Recording for {cleanerName} on Amazon Alexa
       </Typography>
       
       <div className={classNames("container-fluid", classes.containerFix)}>
-        <Alert severity="error" style={{display: alertValue ? true : "none"}}>
-          <AlertTitle>Error</AlertTitle>
-          <strong>{alertText}</strong>
-        </Alert>
+        <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            className={classes.cardWrapper}
+            data-aos="zoom-in-up"
+            data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
+            >
+            <Grid
+              item
+              direction="row"
+              justify="center"
+              alignItems="center"
+              className={classes.cardWrapper}
+              xs={6}
+              sm={6}
+              lg={6}
+              data-aos="zoom-in-up"
+              data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
+              >
 
-        <Alert severity="success" style={{display: successAlertValue ? true : "none"}}>
-          <AlertTitle>Congrats!</AlertTitle>
-          <strong>{successAlertValue}</strong>
-        </Alert>
+              <Alert severity="error" style={{display: alertValue ? true : "none"}}>
+                <AlertTitle>Error</AlertTitle>
+                <strong>{alertText}</strong>
+              </Alert>
+
+              <Alert severity="success" style={{display: successAlertValue ? true : "none"}}>
+                <AlertTitle>Congrats!</AlertTitle>
+                <strong>{successAlertValue}</strong>
+              </Alert>
+            </Grid>
+
+        </Grid>
 
         <Grid
           container
@@ -174,7 +198,7 @@ const uploadMP3 = async () => {
                         color="primary"
                         // onClick={handleClickOpen}
                       >
-                        Guide Video
+                        {voiceOverScript}
                       </Button>
                     </div>
                   </Grid>
