@@ -4,6 +4,7 @@ import HeadSection from "./HeadSection";
 import FeatureSection from "./FeatureSection";
 import PricingSection from "./PricingSection";
 import NewFreeCleanerSection from "./NewFreeCleanerSection";
+import VoiceOverSection from "./VoiceOverSection";
 import firebase from 'firebase';
 
 // Init Firebase
@@ -24,6 +25,7 @@ function Home(props) {
       <FeatureSection />
       <PricingSection />
       <NewFreeCleanerSection btnClickFx={btnClickFx} alertText={value} setAlertValue={setValue} alertValue={value} setSuccessAlertValue={setSuccessAlert} successAlertValue={successAlert}/>
+      <VoiceOverSection btnClickFx={btnClickFx} alertText={value} setAlertValue={setValue} alertValue={value} setSuccessAlertValue={setSuccessAlert} successAlertValue={successAlert}/>
     </Fragment>
   );
 }
