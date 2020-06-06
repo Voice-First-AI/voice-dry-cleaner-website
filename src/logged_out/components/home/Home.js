@@ -122,32 +122,23 @@ function Home(props) {
   // getVoiceOverList - Retrieves List of Voiceover Files from Firebase Storage
   //
   const getVoiceOverList = () => {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      // Check if USER has existing cleaner.
-      db.collection('admins').doc(user.uid).get().then(function(userDoc) {
-        if (userDoc.exists) {
-            const cleaner = userDoc.data().company;
-            if (cleaner) {//USER has existing cleaner.
-                console.log("cleaner 0:" + cleaner)
-                let scriptIndex;
-                storageRef.child('dry-cleaners/' + cleaner + '/voiceOver').listAll().then((res) => {
-                    scriptIndex = res.items.length ? res.items.length : 0;
-                    setVoiceOverIndex(scriptIndex)
-                    alert("New Voiceover Index: " + scriptIndex)
-                    console.log(VOICE_OVER_SCRIPTS[scriptIndex])
-                    alert("New VOiceOver Script: " + VOICE_OVER_SCRIPTS[scriptIndex])
-                    alert(scriptIndex + " voiceover files uploaded")
-                })
-                .catch((error) => {
-                  console.log(error)
-                })
-            }                      
-        }
-      }).catch(function(error) {
-          console.log("Error getting document:", error);
-      });
-    } 
+    alert("Get VoiceOverList.")
+    if (cleanerName) {//USER has existing cleaner.
+        console.log("cleaner 0:" + cleanerName)
+        alert("Getting VoiceOverList for " + cleanerName)
+        let scriptIndex;
+        storageRef.child('dry-cleaners/' + cleanerName + '/voiceOver').listAll().then((res) => {
+            scriptIndex = res.items.length ? res.items.length : 0;
+            setVoiceOverIndex(scriptIndex)
+            alert("New Voiceover Index: " + scriptIndex)
+            console.log(VOICE_OVER_SCRIPTS[scriptIndex])
+            alert("New VOiceOver Script: " + VOICE_OVER_SCRIPTS[scriptIndex])
+            alert(scriptIndex + " voiceover files uploaded")
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }                      
   }
 
   //
@@ -156,11 +147,11 @@ function Home(props) {
   const getCleanerName = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        alert(user.uid)
         db.collection('admins').doc(user.uid).get().then(function(userDoc) {
           if (userDoc.exists) {
               const cleaner = userDoc.data().company;
-              setCleanerName(cleaner);                     
+              setCleanerName(cleaner); 
+              getVoiceOverList();                    
           }
         }).catch(function(error) {
             console.log("Error getting document:", error);
