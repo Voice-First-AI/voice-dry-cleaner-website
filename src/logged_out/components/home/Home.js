@@ -5,6 +5,7 @@ import FeatureSection from "./FeatureSection";
 import PricingSection from "./PricingSection";
 import NewFreeCleanerSection from "./NewFreeCleanerSection";
 import VoiceOverSection from "./VoiceOverSection";
+import PublishSection from "./PublishSection";
 import firebase from 'firebase';
 
 // Init Firebase
@@ -128,8 +129,7 @@ function Home(props) {
         let scriptIndex;
         storageRef.child('dry-cleaners/' + cleanerName + '/voiceOver').listAll().then((res) => {
             scriptIndex = res.items.length ? res.items.length : 0;
-            setVoiceOverIndex(scriptIndex < VOICE_OVER_SCRIPTS.length ? scriptIndex: (VOICE_OVER_SCRIPTS.length - 1) )
-            console.log(VOICE_OVER_SCRIPTS[scriptIndex])
+            setVoiceOverIndex( scriptIndex )
         })
         .catch((error) => {
           console.log(error)
@@ -169,7 +169,7 @@ function Home(props) {
             setSuccessAlertValue={setSuccessAlert} 
             successAlertValue={successAlert}
           /> : null }
-        { cleanerName ? <VoiceOverSection 
+        { (cleanerName && (voiceOverIndex < VOICE_OVER_SCRIPTS.length) )  ? <VoiceOverSection 
             firebase={firebase} 
             btnClickFx={btnClickFx} 
             alertText={value} 
@@ -181,6 +181,15 @@ function Home(props) {
             getVoiceOverList={getVoiceOverList}
             voiceOverScript={VOICE_OVER_SCRIPTS[voiceOverIndex]}
             voiceOverKey={VOICE_OVER_KEYS[voiceOverIndex]}
+        /> : null }
+        { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) ) ? <PublishSection 
+            alertText={value} 
+            setAlertValue={setValue} 
+            alertValue={value} 
+            setSuccessAlertValue={setSuccessAlert} 
+            successAlertValue={successAlert}
+            cleanerName={cleanerName}
+            voiceOverKeys={VOICE_OVER_KEYS}
         /> : null }
       </div>
     </Fragment>

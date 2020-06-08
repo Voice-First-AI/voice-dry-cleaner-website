@@ -52,7 +52,7 @@ const styles = theme => ({
 });
 
 function VoiceOverSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, getVoiceOverList, voiceOverScript, voiceOverKey } = props;
+  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, voiceOverScript, voiceOverKey } = props;
   const [recording, setRecordName] = useState("Record");
   const [recordingColor, setRecordingColor] = useState("primary");
   const [isRecording, setIsRecording] = useState(false);
