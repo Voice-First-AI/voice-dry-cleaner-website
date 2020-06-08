@@ -82,10 +82,8 @@ const uploadMP3 = async () => {
   const storageRef = firebase.storage().ref();
   let file = await fetch(blobURL).then(r => r.blob());
   let voiceOverFileName = voiceOverKey;
-  if (voiceOverFileName.length > 0) {
-    voiceOverFileName = voiceOverFileName.replace(/[ ]/g, ".");
-    voiceOverFileName = voiceOverFileName + ".mp3";
-  }
+  voiceOverFileName = voiceOverFileName.replace(/[ ]/g, ".");
+  voiceOverFileName = voiceOverFileName + ".mp3";
   const uploadTask = storageRef
     .child(`dry-cleaners/${cleanerName}/voiceOver/${voiceOverFileName}`)
     .put(file);
@@ -101,7 +99,7 @@ const uploadMP3 = async () => {
     () => {
       alert("SUCCESSFUL UPLOAD")
       setBlobURL("");
-      getVoiceOverList();
+      // getVoiceOverList();
     }
   );
 };

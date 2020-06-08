@@ -34,7 +34,7 @@ function Home(props) {
     "You can say, what are your hours, what are your specials, Or, you can say where are you located. How can I help you?",
     "Uh oh. I'm not quite that smart yet.",
     "We are open <insert your cleaners hours here>.",
-    "Currently we're runnign a special on <insert your cleaners specials here>.",
+    "Currently we're running a special on <insert your cleaners specials here>.",
     "You can find us at <insert your cleaners address here>"
   ]
   useEffect(() => {
@@ -123,15 +123,12 @@ function Home(props) {
   // getVoiceOverList - Retrieves List of Voiceover Files from Firebase Storage
   //
   const getVoiceOverList = () => {
-    alert("Get VoiceOverList.")
     if (cleanerName) {//USER has existing cleaner.
         console.log("cleaner 0:" + cleanerName)
-        alert("Getting VoiceOverList for " + cleanerName)
         let scriptIndex;
         storageRef.child('dry-cleaners/' + cleanerName + '/voiceOver').listAll().then((res) => {
             scriptIndex = res.items.length ? res.items.length : 0;
-            setVoiceOverIndex(scriptIndex)
-            alert("New Voiceover Index: " + scriptIndex)
+            setVoiceOverIndex(scriptIndex < VOICE_OVER_SCRIPTS.length ? scriptIndex: (VOICE_OVER_SCRIPTS.length - 1) )
             console.log(VOICE_OVER_SCRIPTS[scriptIndex])
         })
         .catch((error) => {
@@ -163,27 +160,29 @@ function Home(props) {
       <HeadSection />
       <FeatureSection />
       <PricingSection />
-      { !cleanerName ? <NewFreeCleanerSection 
-          btnClickFx={btnClickFx} 
-          alertText={value} 
-          setAlertValue={setValue} 
-          alertValue={value} 
-          setSuccessAlertValue={setSuccessAlert} 
-          successAlertValue={successAlert}
+      <div id="getStarted">
+        { !cleanerName ? <NewFreeCleanerSection 
+            btnClickFx={btnClickFx} 
+            alertText={value} 
+            setAlertValue={setValue} 
+            alertValue={value} 
+            setSuccessAlertValue={setSuccessAlert} 
+            successAlertValue={successAlert}
+          /> : null }
+        { cleanerName ? <VoiceOverSection 
+            firebase={firebase} 
+            btnClickFx={btnClickFx} 
+            alertText={value} 
+            setAlertValue={setValue} 
+            alertValue={value} 
+            setSuccessAlertValue={setSuccessAlert} 
+            successAlertValue={successAlert}
+            cleanerName={cleanerName}
+            getVoiceOverList={getVoiceOverList}
+            voiceOverScript={VOICE_OVER_SCRIPTS[voiceOverIndex]}
+            voiceOverKey={VOICE_OVER_KEYS[voiceOverIndex]}
         /> : null }
-      { cleanerName ? <VoiceOverSection 
-          firebase={firebase} 
-          btnClickFx={btnClickFx} 
-          alertText={value} 
-          setAlertValue={setValue} 
-          alertValue={value} 
-          setSuccessAlertValue={setSuccessAlert} 
-          successAlertValue={successAlert}
-          cleanerName={cleanerName}
-          getVoiceOverList={getVoiceOverList}
-          voiceOverScript={VOICE_OVER_SCRIPTS[voiceOverIndex]}
-          voiceOverKey={VOICE_OVER_KEYS[voiceOverIndex]}
-        /> : null }
+      </div>
     </Fragment>
   );
 }
