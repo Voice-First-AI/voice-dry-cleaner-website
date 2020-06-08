@@ -40,7 +40,8 @@ function Home(props) {
   useEffect(() => {
     selectHome();
     getCleanerName();
-  }, [selectHome]);
+    getVoiceOverList();
+  }, [selectHome, cleanerName, voiceOverIndex]);
 
   const btnClickFx = (cleanerName, cleanerPhoneNumber, setAlertValue, setSuccessAlertValue) => {
     const newCleanerName = cleanerName.current.value.toLowerCase();
@@ -132,8 +133,6 @@ function Home(props) {
             setVoiceOverIndex(scriptIndex)
             alert("New Voiceover Index: " + scriptIndex)
             console.log(VOICE_OVER_SCRIPTS[scriptIndex])
-            alert("New VOiceOver Script: " + VOICE_OVER_SCRIPTS[scriptIndex])
-            alert(scriptIndex + " voiceover files uploaded")
         })
         .catch((error) => {
           console.log(error)
@@ -150,8 +149,7 @@ function Home(props) {
         db.collection('admins').doc(user.uid).get().then(function(userDoc) {
           if (userDoc.exists) {
               const cleaner = userDoc.data().company;
-              setCleanerName(cleaner); 
-              getVoiceOverList();                    
+              setCleanerName(cleaner);                     
           }
         }).catch(function(error) {
             console.log("Error getting document:", error);
@@ -184,6 +182,7 @@ function Home(props) {
           cleanerName={cleanerName}
           getVoiceOverList={getVoiceOverList}
           voiceOverScript={VOICE_OVER_SCRIPTS[voiceOverIndex]}
+          voiceOverKey={VOICE_OVER_KEYS[voiceOverIndex]}
         /> : null }
     </Fragment>
   );

@@ -52,7 +52,7 @@ const styles = theme => ({
 });
 
 function VoiceOverSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, getVoiceOverList, voiceOverScript } = props;
+  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, getVoiceOverList, voiceOverScript, voiceOverKey } = props;
   const [recording, setRecordName] = useState("Record");
   const [recordingColor, setRecordingColor] = useState("primary");
   const [isRecording, setIsRecording] = useState(false);
@@ -81,7 +81,7 @@ function VoiceOverSection(props) {
 const uploadMP3 = async () => {
   const storageRef = firebase.storage().ref();
   let file = await fetch(blobURL).then(r => r.blob());
-  let voiceOverFileName = "welcome.speech";
+  let voiceOverFileName = voiceOverKey;
   if (voiceOverFileName.length > 0) {
     voiceOverFileName = voiceOverFileName.replace(/[ ]/g, ".");
     voiceOverFileName = voiceOverFileName + ".mp3";
