@@ -104,7 +104,7 @@ function PublishSection(props) {
                 >
                   <p>{voiceOverAudio}</p>
                   <audio
-                    src={"https://firebasestorage.googleapis.com/v0/b/mydrycleaner-be879.appspot.com/o/dry-cleaners%2Fjune%20fifth%20cleaner%20thousanf%2FvoiceOver%2F" + voiceOverAudio + ".mp3?alt=media"}
+                    src={"https://firebasestorage.googleapis.com/v0/b/mydrycleaner-be879.appspot.com/o/dry-cleaners%2F" + cleanerName + "%2FvoiceOver%2F" + voiceOverAudio + ".mp3?alt=media"}
                     controls="controls"
                   />
                 </Grid>

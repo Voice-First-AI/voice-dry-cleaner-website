@@ -52,7 +52,7 @@ const styles = theme => ({
 });
 
 function VoiceOverSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, voiceOverScript, voiceOverKey } = props;
+  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, voiceOverScript, voiceOverKey, getVoiceOverList } = props;
   const [recording, setRecordName] = useState("Record");
   const [recordingColor, setRecordingColor] = useState("primary");
   const [isRecording, setIsRecording] = useState(false);
@@ -99,7 +99,7 @@ const uploadMP3 = async () => {
     () => {
       alert("SUCCESSFUL UPLOAD")
       setBlobURL("");
-      // getVoiceOverList();
+      getVoiceOverList();
     }
   );
 };
