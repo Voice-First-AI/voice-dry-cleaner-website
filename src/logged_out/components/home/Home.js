@@ -109,7 +109,8 @@ function Home(props) {
     // Add a new document in collection "admins"
     db.collection("admins").doc(user.uid).set({
       company: cleanerName,
-      phoneNumber: phoneNumber
+      phoneNumber: phoneNumber,
+      email: user.email
     })
     .then(function() {
       setCleanerName(cleanerName);
