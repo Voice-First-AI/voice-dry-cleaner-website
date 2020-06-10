@@ -142,7 +142,7 @@ function HeadSection(props) {
                           fullWidth
                           className={classes.extraLargeButton}
                           classes={{ label: classes.extraLargeButtonLabel }}
-                          href="#freeCleaner"
+                          href="#getStarted"
                         >             
 
                           Get Started for FREE

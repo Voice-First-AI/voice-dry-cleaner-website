@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import {
@@ -42,6 +42,7 @@ const styles = theme => ({
 });
 
 function NavBar(props) {
+  const [menuItems, setMenuItems] = useState([]);
   const {
     classes,
     openRegisterDialog,
@@ -51,23 +52,63 @@ function NavBar(props) {
     mobileDrawerOpen,
     selectedTab
   } = props;
-  const menuItems = [
-    {
-      name: "Home",
-      onClick: () => {smoothScrollTop()},
-      icon: <HomeIcon className="text-white" />
-    },
-    {
-      name: "SignUp / Login",
-      onClick: openRegisterDialog,
-      icon: <HowToRegIcon className="text-white" />
-    },
-    {
-      name: "Logout",
-      onClick: () => {firebase.auth().signOut()},
-      icon: <LockOpenIcon className="text-white" />
-    }
-  ];
+
+  useEffect(() => {
+    getAuthStatus();
+  }, [menuItems]);
+
+  //
+  //getCleanerName - Gets Admin Cleaner Name
+  //
+  const getAuthStatus = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setMenuItems([
+          {
+            name: "Home",
+            onClick: () => {smoothScrollTop()},
+            icon: <HomeIcon className="text-white" />
+          },
+          {
+            name: "Logout",
+            onClick: () => {firebase.auth().signOut()},
+            icon: <LockOpenIcon className="text-white" />
+          }
+        ])
+      } else {
+        setMenuItems([
+          {
+            name: "Home",
+            onClick: () => {smoothScrollTop()},
+            icon: <HomeIcon className="text-white" />
+          },
+          {
+            name: "SignUp / Login",
+            onClick: openRegisterDialog,
+            icon: <HowToRegIcon className="text-white" />
+          }
+        ])
+      }
+    })
+  }
+
+  // let menuItems = [
+  //   {
+  //     name: "Home",
+  //     onClick: () => {smoothScrollTop()},
+  //     icon: <HomeIcon className="text-white" />
+  //   },
+  //   {
+  //     name: "SignUp / Login",
+  //     onClick: openRegisterDialog,
+  //     icon: <HowToRegIcon className="text-white" />
+  //   },
+  //   {
+  //     name: "Logout",
+  //     onClick: () => {firebase.auth().signOut()},
+  //     icon: <LockOpenIcon className="text-white" />
+  //   }
+  // ];
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
