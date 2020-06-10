@@ -161,11 +161,12 @@ function Home(props) {
   }
 
   const resetCleaner = () => {
+    setCleanerName("");
+    setValue(null);
+    setSuccessAlert(null);
     db.collection('admins').doc(uid).update({
       company: fieldValue.delete()
     })
-    setCleanerName("")
-    setValue("")
   }
 
   return (
@@ -187,7 +188,7 @@ function Home(props) {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={ resetCleaner }
+            onClick={resetCleaner}
             >
           New Cleaner
           </Button> :
