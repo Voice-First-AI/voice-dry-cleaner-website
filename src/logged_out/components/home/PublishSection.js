@@ -73,6 +73,27 @@ function PublishSection(props) {
         name: cleanerName
     }))
   }
+
+  const addBetaTester = () => {
+    alert("Beta Tester API for " + cleanerName)
+    // create a new XMLHttpRequest
+    var publishXhr = new XMLHttpRequest()
+
+    // get a callback when the server responds
+    publishXhr.addEventListener('load', () => {
+        // update the state of the component with the result here
+        console.log(publishXhr.responseText)
+        setSuccessAlertValue(cleanerName + " Alexa Skill beta test email sent! Check you email for next steps.")
+    })
+    // open the PUBLISH_API request with the verb and the url
+    publishXhr.open('POST', 'https://us-central1-mydrycleaner-be879.cloudfunctions.net/betaTesters')
+    // send the PUBLISH_API request
+    publishXhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    publishXhr.send(JSON.stringify({ 
+        name: cleanerName
+    }))
+  }
+
   return (
     <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
       <Typography variant="h3" align="center" className="lg-mg-bottom">
@@ -127,7 +148,11 @@ function PublishSection(props) {
                     fullWidth
                     className={classes.extraLargeButton}
                     classes={{ label: classes.extraLargeButtonLabel }}
-                    onClick={submitAlexaSkill}
+                    onClick={() => {
+                        addBetaTester()
+                        submitAlexaSkill();
+                      }
+                    }
                     >
                   Publish
                 </Button>

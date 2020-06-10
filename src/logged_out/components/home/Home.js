@@ -7,12 +7,14 @@ import NewFreeCleanerSection from "./NewFreeCleanerSection";
 import VoiceOverSection from "./VoiceOverSection";
 import PublishSection from "./PublishSection";
 import firebase from 'firebase';
+import { Button } from "@material-ui/core";
 
 // Init Firebase
 const serviceAccount = require("../../../serviceAccountKey.json");
 firebase.initializeApp(serviceAccount);
 let db = firebase.firestore();
 const storageRef = firebase.storage().ref();
+const fieldValue = firebase.firestore.FieldValue; 
 
 function Home(props) {
   const { selectHome } = props;
@@ -20,6 +22,7 @@ function Home(props) {
   const [successAlert, setSuccessAlert] = useState(null);
   const [cleanerName, setCleanerName] = useState(null);
   const [voiceOverIndex, setVoiceOverIndex] = useState(0);
+  const [uid, setUid] = useState(null);
   const VOICE_OVER_KEYS = [
     "welcome.speech",
     "end.speech",
@@ -147,13 +150,22 @@ function Home(props) {
         db.collection('admins').doc(user.uid).get().then(function(userDoc) {
           if (userDoc.exists) {
               const cleaner = userDoc.data().company;
-              setCleanerName(cleaner);                     
+              setCleanerName(cleaner);  
+              setUid(user.uid);               
           }
         }).catch(function(error) {
             console.log("Error getting document:", error);
         });
       }
     })
+  }
+
+  const resetCleaner = () => {
+    db.collection('admins').doc(uid).update({
+      company: fieldValue.delete()
+    })
+    setCleanerName("")
+    setValue("")
   }
 
   return (
@@ -170,6 +182,17 @@ function Home(props) {
             setSuccessAlertValue={setSuccessAlert} 
             successAlertValue={successAlert}
           /> : null }
+        { cleanerName ? 
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={ resetCleaner }
+            >
+          New Cleaner
+          </Button> :
+          null
+        }
         { (cleanerName && (voiceOverIndex < VOICE_OVER_SCRIPTS.length) )  ? <VoiceOverSection 
             firebase={firebase} 
             btnClickFx={btnClickFx} 
