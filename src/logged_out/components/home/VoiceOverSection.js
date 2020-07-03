@@ -83,7 +83,7 @@ const uploadMP3 = async () => {
   let file = await fetch(blobURL).then(r => r.blob());
   let voiceOverFileName = voiceOverKey;
   voiceOverFileName = voiceOverFileName.replace(/[ ]/g, ".");
-  voiceOverFileName = voiceOverFileName + ".mp3";
+  voiceOverFileName = voiceOverFileName;
   const uploadTask = storageRef
     .child(`dry-cleaners/${cleanerName}/voiceOver/${voiceOverFileName}`)
     .put(file);
