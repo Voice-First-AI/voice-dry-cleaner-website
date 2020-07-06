@@ -141,7 +141,7 @@ function Home(props) {
         console.log("cleaner 0:" + cleanerName)
         let scriptIndex;
         storageRef.child('dry-cleaners/' + cleanerName + '/voiceOver').listAll().then((res) => {
-            scriptIndex = (res.items.length / 2) ? (res.items.length / 2) : 0;
+            scriptIndex = res.items.length ? Math.ceil(res.items.length / 2) : 0;
             setVoiceOverIndex( scriptIndex )
         })
         .catch((error) => {
