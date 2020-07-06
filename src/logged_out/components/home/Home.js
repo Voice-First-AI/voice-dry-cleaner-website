@@ -31,7 +31,16 @@ function Home(props) {
     "what.are.your.hours.speech",
     "what.are.your.specials.speech",
     "where.are.you.located.speech"
-  ]
+  ];
+  const VOICE_OVER_CONVERTED_KEYS = [
+    "welcome_output",
+    "end_output",
+    "help.global_output",
+    "unhandled.global_output",
+    "what.are.your.hours_output",
+    "what.are.your.specials_output",
+    "where.are.you.located_output"
+  ];
   const VOICE_OVER_SCRIPTS = [
     "Welcome to my cleaner! You can say, what are your hours, what are your specials, Or, you can say where are you located. How can I help you?",
     "Thanks for your business. Come back anytime!",
@@ -40,7 +49,7 @@ function Home(props) {
     "We are open <insert your cleaners hours here>.",
     "Currently we're running a special on <insert your cleaners specials here>.",
     "You can find us at <insert your cleaners address here>"
-  ]
+  ];
   useEffect(() => {
     selectHome();
     getCleanerName();
@@ -132,7 +141,7 @@ function Home(props) {
         console.log("cleaner 0:" + cleanerName)
         let scriptIndex;
         storageRef.child('dry-cleaners/' + cleanerName + '/voiceOver').listAll().then((res) => {
-            scriptIndex = res.items.length ? res.items.length : 0;
+            scriptIndex = (res.items.length / 2) ? (res.items.length / 2) : 0;
             setVoiceOverIndex( scriptIndex )
         })
         .catch((error) => {
@@ -214,7 +223,7 @@ function Home(props) {
             setSuccessAlertValue={setSuccessAlert} 
             successAlertValue={successAlert}
             cleanerName={cleanerName}
-            voiceOverKeys={VOICE_OVER_KEYS}
+            voiceOverKeys={VOICE_OVER_CONVERTED_KEYS}
         /> : null }
       </div>
     </Fragment>
