@@ -5,6 +5,7 @@ import FeatureSection from "./FeatureSection";
 import PricingSection from "./PricingSection";
 import NewFreeCleanerSection from "./NewFreeCleanerSection";
 import VoiceOverSection from "./VoiceOverSection";
+import ImageUploaderSection from "./ImageUploaderSection";
 import PublishSection from "./PublishSection";
 import firebase from 'firebase';
 import { Button } from "@material-ui/core";
@@ -143,7 +144,6 @@ function Home(props) {
         storageRef.child('dry-cleaners/' + cleanerName + '/voiceOver').listAll().then((res) => {
             scriptIndex = res.items.length ? Math.ceil(res.items.length / 2) : 0;
             setVoiceOverIndex( scriptIndex )
-            alert(scriptIndex)
         })
         .catch((error) => {
           console.log(error)
@@ -216,6 +216,16 @@ function Home(props) {
             getVoiceOverList={getVoiceOverList}
             voiceOverScript={VOICE_OVER_SCRIPTS[voiceOverIndex]}
             voiceOverKey={VOICE_OVER_KEYS[voiceOverIndex]}
+        /> : null }
+        { (cleanerName && (voiceOverIndex < VOICE_OVER_SCRIPTS.length) )  ? <ImageUploaderSection 
+            firebase={firebase} 
+            btnClickFx={btnClickFx} 
+            alertText={value} 
+            setAlertValue={setValue} 
+            alertValue={value} 
+            setSuccessAlertValue={setSuccessAlert} 
+            successAlertValue={successAlert}
+            cleanerName={cleanerName}
         /> : null }
         { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) ) ? <PublishSection 
             alertText={value} 
