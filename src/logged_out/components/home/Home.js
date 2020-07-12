@@ -46,10 +46,10 @@ function Home(props) {
     "where.are.you.located_output"
   ];
   const VOICE_OVER_SCRIPTS = [
-    "Welcome to my cleaner! You can say, what are your hours, what are your specials, Or, you can say where are you located. How can I help you?",
+    "Welcome to " + cleanerName + "!",
     "Thanks for your business. Come back anytime!",
     "You can say, what are your hours, what are your specials, Or, you can say where are you located. How can I help you?",
-    "Uh oh. I'm not quite that smart yet.",
+    "Uhhm... I'm not quite sure about that one. I sent your request to our team. We will get back to you as soon as possible.",
     "We are open <insert your cleaners hours here>.",
     "Currently we're running a special on <insert your cleaners specials here>.",
     "You can find us at <insert your cleaners address here>"
@@ -179,7 +179,7 @@ function Home(props) {
   //
   const getCleanerLogo = () => {
     firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+      if (user && cleanerName) {
         db.collection('dry-cleaners').doc(cleanerName).get().then(function(cleanerDoc) {
           if (cleanerDoc.exists) {
               const logoUrl = cleanerDoc.data().logo;
@@ -254,6 +254,7 @@ function Home(props) {
             cleanerName={cleanerName}
             setShowLogoUploadSection={setShowLogoUploadSection}
             setShowPublishSection={setShowPublishSection}
+            setCleanerLogo={setCleanerLogo}
         /> : null }
         { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) && showPublishSection ) ? <PublishSection 
             alertText={value} 

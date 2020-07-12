@@ -17,7 +17,7 @@ import calculateSpacing from "./calculateSpacing";
 import { DropzoneArea } from 'material-ui-dropzone';
 
 function ImageUploaderSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, setShowLogoUploadSection, setShowPublishSection } = props;
+  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, setShowLogoUploadSection, setShowPublishSection, setCleanerLogo } = props;
   const [logo, setLogo] = useState(false);
   const storageRef = firebase.storage().ref();
 
@@ -42,6 +42,7 @@ function ImageUploaderSection(props) {
                 .then(url => {
                     alert(url)
                     //Redirect to Publish Screen
+                    setCleanerLogo(url)
                     setShowLogoUploadSection(false);
                     setShowPublishSection(true);
                 });

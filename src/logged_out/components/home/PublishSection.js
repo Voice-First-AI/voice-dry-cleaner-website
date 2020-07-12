@@ -8,14 +8,12 @@ import {
   withWidth,
   withStyles,
   Button,
-  LinearProgress
+  CircularProgress
 } from "@material-ui/core";
 import { 
   Alert,
   AlertTitle
 } from '@material-ui/lab';
-import calculateSpacing from "./calculateSpacing";
-import { ReactMediaRecorder } from "react-media-recorder";
 
 const styles = theme => ({
   containerFix: {
@@ -52,10 +50,10 @@ const styles = theme => ({
 });
 
 function PublishSection(props) {
+  const [isPublishing, setIsPublishing] = useState(false);
   const { width, classes, alertText, alertValue, successAlertValue, cleanerName, cleanerLogo, voiceOverKeys, setSuccessAlertValue } = props;
 
-  const submitAlexaSkill = () => {
-    alert("Publish Alexa Skill for " + cleanerName)
+  const submitAlexaSkill = async () => {
     // create a new XMLHttpRequest
     var publishXhr = new XMLHttpRequest()
 
@@ -63,6 +61,7 @@ function PublishSection(props) {
     publishXhr.addEventListener('load', () => {
         // update the state of the component with the result here
         console.log(publishXhr.responseText)
+        setIsPublishing(false);
         setSuccessAlertValue(cleanerName + " Alexa Skill submitted for certification! Check you email for next steps.")
     })
     // open the PUBLISH_API request with the verb and the url
@@ -74,8 +73,7 @@ function PublishSection(props) {
     }))
   }
 
-  const addBetaTester = () => {
-    alert("Beta Tester API for " + cleanerName)
+  const addBetaTester = async () => {
     // create a new XMLHttpRequest
     var publishXhr = new XMLHttpRequest()
 
@@ -96,11 +94,14 @@ function PublishSection(props) {
 
   return (
     <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
-      <Typography variant="h3" align="center" className="lg-mg-bottom">
+      <Typography variant="h3" align="center" className="mg-bottom">
         Review {"&"} Publish {cleanerName} on Amazon Alexa
       </Typography>
       
       <div className={classNames("container-fluid", classes.containerFix)}>
+        <Typography variant="h3" align="center" >
+          Logo
+        </Typography>
         <Grid
             container
             direction="row"
@@ -110,8 +111,12 @@ function PublishSection(props) {
             data-aos="zoom-in-up"
             data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
             >
+              
               <img src={cleanerLogo}></img>
         </Grid>
+        <Typography variant="h3" align="center">
+          Voice Recordings
+        </Typography>
         <Grid
             container
             direction="row"
@@ -126,16 +131,14 @@ function PublishSection(props) {
                 item
                 direction="row"
                 justify="center"
-                alignItems="center"
+                alignItems="space-around"
+                alignText="center"
                 className={classes.cardWrapper}
-                xs={12}
-                sm={12}
-                lg={12}
                 data-aos="zoom-in-up"
                 data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
                 >
-                  <p>{voiceOverAudio}</p>
-                  <audio
+                  <h3>{voiceOverAudio.replace("_output"," message").replace(/\./g, " ").replace("global", "")}</h3>
+                  <audio xs={12}
                     src={"https://firebasestorage.googleapis.com/v0/b/mydrycleaner-be879.appspot.com/o/dry-cleaners%2F" + cleanerName + "%2FvoiceOver%2F" + voiceOverAudio + ".mp3?alt=media"}
                     controls="controls"
                   />
@@ -148,26 +151,27 @@ function PublishSection(props) {
               alignItems="center"
               className={classes.cardWrapper}
               xs={6}
-              sm={6}
-              lg={6}
               data-aos="zoom-in-up"
               data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
               >
-                <Button
+                {isPublishing ? 
+                  <CircularProgress color="secondary" /> : 
+                  <Button
                     variant="contained"
                     color="primary"
                     fullWidth
                     className={classes.extraLargeButton}
                     classes={{ label: classes.extraLargeButtonLabel }}
-                    onClick={() => {
-                        addBetaTester()
-                        submitAlexaSkill();
+                    onClick={async () => {
+                        setIsPublishing(true);
+                        await addBetaTester();
+                        await submitAlexaSkill();
                       }
                     }
                     >
-                  Publish
-                </Button>
-
+                    Publish
+                  </Button>
+                }
               <Alert severity="error" style={{display: alertValue ? true : "none"}}>
                 <AlertTitle>Error</AlertTitle>
                 <strong>{alertText}</strong>
