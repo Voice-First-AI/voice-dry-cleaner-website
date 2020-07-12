@@ -15,7 +15,7 @@ import {
   AlertTitle
 } from '@material-ui/lab';
 import calculateSpacing from "./calculateSpacing";
-import { ReactMediaRecorder } from "react-media-recorder";
+import { DropzoneArea } from 'material-ui-dropzone';
 
 const styles = theme => ({
   containerFix: {
@@ -190,78 +190,14 @@ const uploadMP3 = async () => {
                         borderSpacing: "10px"
                       }}
                     >
-                      <Button
-                        targe="_blank"
-                        variant="contained"
-                        color="primary"
-                        // onClick={handleClickOpen}
-                      >
-                        +
-                      </Button>
+                      <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        dropzoneText={"Drag and drop an image here or click"}
+                        filesLimit={1}
+                        onChange={(files) => console.log('Files:', files)}
+                      />
                     </div>
                   </Grid>
-                  <div>
-                    <Grid
-                      item 
-                      xs={12} 
-                      sm={6}>
-                      
-                    </Grid>
-                    <ReactMediaRecorder
-                      audio
-                      onStop={onStop}
-                      render={({
-                        status,
-                        startRecording,
-                        stopRecording,
-                        mediaBlobUrl
-                      }) => (
-                        <div>
-                          <audio
-                        src={mediaBlobUrl}
-                        controls="controls"
-                        style={{
-                          visibility: mediaBlobUrl ? "visible" : "hidden"
-                        }}
-                      />
-                          <Button
-                            target="_blank"
-                            variant="contained"
-                            fullWidth
-                            className={classes.extraLargeButton}
-                            classes={{ label: classes.extraLargeButtonLabel }}
-                            color={recordingColor}
-                            onClick={() => {
-                              startRecordingStatus().then(() => {
-                                startRecording();
-                              });
-                              startRecording();
-                            }}
-                            round
-                            disabled={isRecording}
-                          >
-                            <b>{recording}</b>
-                          </Button>
-                          <Button
-                            target="_blank"
-                            round
-                            variant="contained"
-                            color="secondary"
-                            fullWidth
-                            className={classes.extraLargeButton}
-                            classes={{ label: classes.extraLargeButtonLabel }}
-                            onClick={() => {
-                              stopRecordingStatus();
-                              stopRecording();
-                            }}
-                            disabled={!isRecording}
-                          >
-                            <b>Stop</b>
-                          </Button>
-                        </div>
-                      )}
-                    />
-                  </div>
               </div>
               <div>
                 <Grid 
