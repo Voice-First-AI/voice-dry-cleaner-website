@@ -18,6 +18,34 @@ import { DropzoneArea } from 'material-ui-dropzone';
 
 function ImageUploaderSection(props) {
   const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName } = props;
+  const [logo, setLogo] = useState(false);
+  const storageRef = firebase.storage().ref();
+
+  const handleUpload = () => {
+    alert("Upload Logo")
+    console.log("LOGO")
+    console.log(logo)
+    const uploadTask = storageRef.child(`dry-cleaners/${cleanerName}/logo/${logo.name}`).put(logo)
+    uploadTask.on(
+        "state_changed",
+        snapshot => {
+            //progress function
+        },
+        error => {
+            //Error function
+            console.log(error);
+        },
+        () => {
+            storageRef
+                .child(`dry-cleaners/${cleanerName}/logo/${logo.name}`)
+                .getDownloadURL()
+                .then(url => {
+                    alert(url)
+                    //Redirect to Publish Screen
+                });
+        }
+    );
+  };
 
   return (
     <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
@@ -91,7 +119,7 @@ function ImageUploaderSection(props) {
                         acceptedFiles={['image/*']}
                         dropzoneText={"Drag and drop an image here or click"}
                         filesLimit={1}
-                        onChange={(files) => console.log('Files:', files)}
+                        onChange={(files) => setLogo(files[0])}
                       />
                     </div>
                   </Grid>
@@ -109,8 +137,8 @@ function ImageUploaderSection(props) {
                     fullWidth
                     className={classes.extraLargeButton}
                     classes={{ label: classes.extraLargeButtonLabel }}
-                    // onClick={uploadMP3}
-                    // disabled={blobURL.length < 5 || isRecording}
+                    onClick={handleUpload}
+                    disabled={logo ? logo.length <= 0 : false}
                   >
                     <b>Upload</b>
                   </Button>
