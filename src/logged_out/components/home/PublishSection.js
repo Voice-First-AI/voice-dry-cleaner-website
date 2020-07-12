@@ -52,7 +52,7 @@ const styles = theme => ({
 });
 
 function PublishSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue, cleanerName, voiceOverKeys, setSuccessAlertValue } = props;
+  const { width, classes, alertText, alertValue, successAlertValue, cleanerName, cleanerLogo, voiceOverKeys, setSuccessAlertValue } = props;
 
   const submitAlexaSkill = () => {
     alert("Publish Alexa Skill for " + cleanerName)
@@ -101,6 +101,17 @@ function PublishSection(props) {
       </Typography>
       
       <div className={classNames("container-fluid", classes.containerFix)}>
+        <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            className={classes.cardWrapper}
+            data-aos="zoom-in-up"
+            data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
+            >
+              <img src={cleanerLogo}></img>
+        </Grid>
         <Grid
             container
             direction="row"

@@ -22,6 +22,7 @@ function Home(props) {
   const [value, setValue] = useState(null);
   const [successAlert, setSuccessAlert] = useState(null);
   const [cleanerName, setCleanerName] = useState(null);
+  const [cleanerLogo, setCleanerLogo] = useState("https://firebasestorage.googleapis.com/v0/b/voice-first-tech.appspot.com/o/logo%2Flogo_512x512.png?alt=media");
   const [voiceOverIndex, setVoiceOverIndex] = useState(0);
   const [uid, setUid] = useState(null);
   const [showLogoUploadSection, setShowLogoUploadSection] = useState(true);
@@ -57,6 +58,7 @@ function Home(props) {
     selectHome();
     getCleanerName();
     getVoiceOverList();
+    getCleanerLogo();
   }, [selectHome, cleanerName, voiceOverIndex]);
 
   const btnClickFx = (cleanerName, cleanerPhoneNumber, setAlertValue, setSuccessAlertValue) => {
@@ -172,6 +174,28 @@ function Home(props) {
     })
   }
 
+  //
+  //getCleanerLogo - Gets Cleaner Logo
+  //
+  const getCleanerLogo = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        db.collection('dry-cleaners').doc(cleanerName).get().then(function(cleanerDoc) {
+          if (cleanerDoc.exists) {
+              const logoUrl = cleanerDoc.data().logo;
+              if (logoUrl) {
+                setShowLogoUploadSection(false);
+                setShowPublishSection(true);
+                setCleanerLogo(logoUrl);    
+              }            
+          }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+      }
+    })
+  }
+
   const resetCleaner = () => {
     setCleanerName("");
     setValue(null);
@@ -238,6 +262,7 @@ function Home(props) {
             setSuccessAlertValue={setSuccessAlert} 
             successAlertValue={successAlert}
             cleanerName={cleanerName}
+            cleanerLogo={cleanerLogo}
             voiceOverKeys={VOICE_OVER_CONVERTED_KEYS}
         /> : null }
       </div>
