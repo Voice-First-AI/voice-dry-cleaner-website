@@ -166,6 +166,8 @@ function Home(props) {
               const cleaner = userDoc.data().company;
               setCleanerName(cleaner);  
               setUid(user.uid);               
+          } else {
+            setCleanerName(null)
           }
         }).catch(function(error) {
             console.log("Error getting document:", error);
@@ -188,20 +190,29 @@ function Home(props) {
                 setShowPublishSection(true);
                 setCleanerLogo(logoUrl);    
               }            
+          } else {
+            setCleanerLogo("https://firebasestorage.googleapis.com/v0/b/voice-first-tech.appspot.com/o/logo%2Flogo_512x512.png?alt=media"); 
           }
         }).catch(function(error) {
             console.log("Error getting document:", error);
         });
+      } else {
+        setCleanerLogo("https://firebasestorage.googleapis.com/v0/b/voice-first-tech.appspot.com/o/logo%2Flogo_512x512.png?alt=media"); 
       }
     })
   }
 
-  const resetCleaner = () => {
-    setCleanerName("");
-    setValue(null);
-    setSuccessAlert(null);
+  const resetCleaner = async () => {
     db.collection('admins').doc(uid).update({
       company: fieldValue.delete()
+    }).then(() => {
+      alert("hello world");
+      setValue(null);
+      setSuccessAlert(null);
+      getCleanerName();
+      getCleanerLogo();
+      setShowPublishSection(false);
+      setShowLogoUploadSection(true);
     })
   }
 
@@ -224,7 +235,9 @@ function Home(props) {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={resetCleaner}
+            onClick={async () => {
+              await resetCleaner()
+            }}
             >
           New Cleaner
           </Button> :

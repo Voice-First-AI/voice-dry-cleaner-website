@@ -97,7 +97,6 @@ const uploadMP3 = async () => {
     },
     e => console.error(e),
     () => {
-      alert("SUCCESSFUL UPLOAD")
       setBlobURL("");
       getVoiceOverList();
     }
