@@ -24,6 +24,8 @@ function Home(props) {
   const [cleanerName, setCleanerName] = useState(null);
   const [voiceOverIndex, setVoiceOverIndex] = useState(0);
   const [uid, setUid] = useState(null);
+  const [showLogoUploadSection, setShowLogoUploadSection] = useState(true);
+  const [showPublishSection, setShowPublishSection] = useState(false);
   const VOICE_OVER_KEYS = [
     "welcome.speech",
     "end.speech",
@@ -217,7 +219,7 @@ function Home(props) {
             voiceOverScript={VOICE_OVER_SCRIPTS[voiceOverIndex]}
             voiceOverKey={VOICE_OVER_KEYS[voiceOverIndex]}
         /> : null }
-        { (cleanerName && (voiceOverIndex < VOICE_OVER_SCRIPTS.length) )  ? <ImageUploaderSection 
+        { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) && showLogoUploadSection )  ? <ImageUploaderSection 
             firebase={firebase} 
             btnClickFx={btnClickFx} 
             alertText={value} 
@@ -226,8 +228,10 @@ function Home(props) {
             setSuccessAlertValue={setSuccessAlert} 
             successAlertValue={successAlert}
             cleanerName={cleanerName}
+            setShowLogoUploadSection={setShowLogoUploadSection}
+            setShowPublishSection={setShowPublishSection}
         /> : null }
-        { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) ) ? <PublishSection 
+        { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) && showPublishSection ) ? <PublishSection 
             alertText={value} 
             setAlertValue={setValue} 
             alertValue={value} 
