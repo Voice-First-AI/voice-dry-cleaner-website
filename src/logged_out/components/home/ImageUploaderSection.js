@@ -7,8 +7,7 @@ import {
   isWidthUp,
   withWidth,
   withStyles,
-  Button,
-  LinearProgress
+  Button
 } from "@material-ui/core";
 import { 
   Alert,
@@ -17,110 +16,8 @@ import {
 import calculateSpacing from "./calculateSpacing";
 import { DropzoneArea } from 'material-ui-dropzone';
 
-const styles = theme => ({
-  containerFix: {
-    [theme.breakpoints.down("md")]: {
-      paddingLeft: theme.spacing(6),
-      paddingRight: theme.spacing(6)
-    },
-    [theme.breakpoints.down("sm")]: {
-      paddingLeft: theme.spacing(4),
-      paddingRight: theme.spacing(4)
-    },
-    [theme.breakpoints.down("xs")]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
-    },
-    overflow: "hidden",
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
-  },
-  cardWrapper: {
-    [theme.breakpoints.down("xs")]: {
-      marginLeft: "auto",
-      marginRight: "auto",
-      maxWidth: 340
-    }
-  },
-  cardWrapperHighlighted: {
-    [theme.breakpoints.down("xs")]: {
-      marginLeft: "auto",
-      marginRight: "auto",
-      maxWidth: 360
-    }
-  }
-});
-
 function ImageUploaderSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, voiceOverScript, voiceOverKey, getVoiceOverList } = props;
-  const [recording, setRecordName] = useState("Record");
-  const [recordingColor, setRecordingColor] = useState("primary");
-  const [isRecording, setIsRecording] = useState(false);
-  const [blobURL, setBlobURL] = useState("");
-  const [progress, setProgress] = useState(0);
-
-  /**
-   * Sets starts countdown, and then sets recording status
-   */
-  const startRecordingStatus = async () => {
-    setRecordingColor("secondary");
-    setRecordName("3");
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setRecordName("2");
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setRecordName("1");
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsRecording(true);
-    setRecordingColor("primary");
-    setRecordName("Recording");
-  };
-
-/**
- * uploads MP3 url to firebase to user input or random if no input is provided.
- */
-const uploadMP3 = async () => {
-  const storageRef = firebase.storage().ref();
-  let file = await fetch(blobURL).then(r => r.blob());
-  let voiceOverFileName = voiceOverKey;
-  voiceOverFileName = voiceOverFileName.replace(/[ ]/g, ".");
-  voiceOverFileName = voiceOverFileName;
-  const uploadTask = storageRef
-    .child(`dry-cleaners/${cleanerName}/voiceOver/${voiceOverFileName}`)
-    .put(file);
-  uploadTask.on(
-    "state_changed",
-    snapshot => {
-      const progressNumber = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-      setProgress(progressNumber);
-    },
-    e => console.error(e),
-    () => {
-      alert("SUCCESSFUL UPLOAD")
-      setBlobURL("");
-      getVoiceOverList();
-    }
-  );
-};
-
-
-  /**
-   * sets BlobURL state to the incoming blob url.
-   * @param {*} recordedBlob - blob url of recorded audio stream.
-   */
-  const onStop = async (recordedBlob) => {
-    setBlobURL(recordedBlob);
-  };
-
-  /**
-   * resets Recording button color and name to initial and sets recording status to false.
-   */
-  const stopRecordingStatus = () => {
-      setIsRecording(false);
-      setRecordingColor("primary");
-      setRecordName("Record");
-  };
+  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName } = props;
 
   return (
     <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
@@ -212,19 +109,11 @@ const uploadMP3 = async () => {
                     fullWidth
                     className={classes.extraLargeButton}
                     classes={{ label: classes.extraLargeButtonLabel }}
-                    onClick={uploadMP3}
-                    disabled={blobURL.length < 5 || isRecording}
+                    // onClick={uploadMP3}
+                    // disabled={blobURL.length < 5 || isRecording}
                   >
                     <b>Upload</b>
                   </Button>
-                </Grid>
-                <Grid item>
-                  <LinearProgress 
-                    variant="determinate"
-                    color="primary"
-                    style={{ visibility: progress === 0 ? "hidden" : "visible" }}
-                    value={progress}
-                  />
                 </Grid>
               </div>
             </div>
@@ -233,6 +122,40 @@ const uploadMP3 = async () => {
     </div>
   );
 }
+
+const styles = theme => ({
+  containerFix: {
+    [theme.breakpoints.down("md")]: {
+      paddingLeft: theme.spacing(6),
+      paddingRight: theme.spacing(6)
+    },
+    [theme.breakpoints.down("sm")]: {
+      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(4)
+    },
+    [theme.breakpoints.down("xs")]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2)
+    },
+    overflow: "hidden",
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
+  },
+  cardWrapper: {
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "auto",
+      marginRight: "auto",
+      maxWidth: 340
+    }
+  },
+  cardWrapperHighlighted: {
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "auto",
+      marginRight: "auto",
+      maxWidth: 360
+    }
+  }
+});
 
 ImageUploaderSection.propTypes = {
   width: PropTypes.string.isRequired
