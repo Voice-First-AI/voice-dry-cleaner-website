@@ -22,8 +22,11 @@ function Home(props) {
   const [value, setValue] = useState(null);
   const [successAlert, setSuccessAlert] = useState(null);
   const [cleanerName, setCleanerName] = useState(null);
+  const [cleanerLogo, setCleanerLogo] = useState("https://firebasestorage.googleapis.com/v0/b/voice-first-tech.appspot.com/o/logo%2Flogo_512x512.png?alt=media");
   const [voiceOverIndex, setVoiceOverIndex] = useState(0);
   const [uid, setUid] = useState(null);
+  const [showLogoUploadSection, setShowLogoUploadSection] = useState(true);
+  const [showPublishSection, setShowPublishSection] = useState(false);
   const VOICE_OVER_KEYS = [
     "welcome.speech",
     "end.speech",
@@ -43,10 +46,10 @@ function Home(props) {
     "where.are.you.located_output"
   ];
   const VOICE_OVER_SCRIPTS = [
-    "Welcome to my cleaner! You can say, what are your hours, what are your specials, Or, you can say where are you located. How can I help you?",
+    "Welcome to " + cleanerName + "!",
     "Thanks for your business. Come back anytime!",
     "You can say, what are your hours, what are your specials, Or, you can say where are you located. How can I help you?",
-    "Uh oh. I'm not quite that smart yet.",
+    "Uhhm... I'm not quite sure about that one. I sent your request to our team. We will get back to you as soon as possible.",
     "We are open <insert your cleaners hours here>.",
     "Currently we're running a special on <insert your cleaners specials here>.",
     "You can find us at <insert your cleaners address here>"
@@ -55,6 +58,7 @@ function Home(props) {
     selectHome();
     getCleanerName();
     getVoiceOverList();
+    getCleanerLogo();
   }, [selectHome, cleanerName, voiceOverIndex]);
 
   const btnClickFx = (cleanerName, cleanerPhoneNumber, setAlertValue, setSuccessAlertValue) => {
@@ -162,6 +166,8 @@ function Home(props) {
               const cleaner = userDoc.data().company;
               setCleanerName(cleaner);  
               setUid(user.uid);               
+          } else {
+            setCleanerName(null)
           }
         }).catch(function(error) {
             console.log("Error getting document:", error);
@@ -170,12 +176,43 @@ function Home(props) {
     })
   }
 
-  const resetCleaner = () => {
-    setCleanerName("");
-    setValue(null);
-    setSuccessAlert(null);
+  //
+  //getCleanerLogo - Gets Cleaner Logo
+  //
+  const getCleanerLogo = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user && cleanerName) {
+        db.collection('dry-cleaners').doc(cleanerName).get().then(function(cleanerDoc) {
+          if (cleanerDoc.exists) {
+              const logoUrl = cleanerDoc.data().logo;
+              if (logoUrl) {
+                setShowLogoUploadSection(false);
+                setShowPublishSection(true);
+                setCleanerLogo(logoUrl);    
+              }            
+          } else {
+            setCleanerLogo("https://firebasestorage.googleapis.com/v0/b/voice-first-tech.appspot.com/o/logo%2Flogo_512x512.png?alt=media"); 
+          }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+      } else {
+        setCleanerLogo("https://firebasestorage.googleapis.com/v0/b/voice-first-tech.appspot.com/o/logo%2Flogo_512x512.png?alt=media"); 
+      }
+    })
+  }
+
+  const resetCleaner = async () => {
     db.collection('admins').doc(uid).update({
       company: fieldValue.delete()
+    }).then(() => {
+      alert("hello world");
+      setValue(null);
+      setSuccessAlert(null);
+      getCleanerName();
+      getCleanerLogo();
+      setShowPublishSection(false);
+      setShowLogoUploadSection(true);
     })
   }
 
@@ -198,7 +235,9 @@ function Home(props) {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={resetCleaner}
+            onClick={async () => {
+              await resetCleaner()
+            }}
             >
           New Cleaner
           </Button> :
@@ -217,7 +256,7 @@ function Home(props) {
             voiceOverScript={VOICE_OVER_SCRIPTS[voiceOverIndex]}
             voiceOverKey={VOICE_OVER_KEYS[voiceOverIndex]}
         /> : null }
-        { (cleanerName && (voiceOverIndex < VOICE_OVER_SCRIPTS.length) )  ? <ImageUploaderSection 
+        { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) && showLogoUploadSection )  ? <ImageUploaderSection 
             firebase={firebase} 
             btnClickFx={btnClickFx} 
             alertText={value} 
@@ -226,14 +265,18 @@ function Home(props) {
             setSuccessAlertValue={setSuccessAlert} 
             successAlertValue={successAlert}
             cleanerName={cleanerName}
+            setShowLogoUploadSection={setShowLogoUploadSection}
+            setShowPublishSection={setShowPublishSection}
+            setCleanerLogo={setCleanerLogo}
         /> : null }
-        { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) ) ? <PublishSection 
+        { (cleanerName && (voiceOverIndex >= VOICE_OVER_SCRIPTS.length) && showPublishSection ) ? <PublishSection 
             alertText={value} 
             setAlertValue={setValue} 
             alertValue={value} 
             setSuccessAlertValue={setSuccessAlert} 
             successAlertValue={successAlert}
             cleanerName={cleanerName}
+            cleanerLogo={cleanerLogo}
             voiceOverKeys={VOICE_OVER_CONVERTED_KEYS}
         /> : null }
       </div>

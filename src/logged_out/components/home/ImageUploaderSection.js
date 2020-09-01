@@ -7,7 +7,8 @@ import {
   isWidthUp,
   withWidth,
   withStyles,
-  Button
+  Button,
+  CircularProgress
 } from "@material-ui/core";
 import { 
   Alert,
@@ -17,7 +18,35 @@ import calculateSpacing from "./calculateSpacing";
 import { DropzoneArea } from 'material-ui-dropzone';
 
 function ImageUploaderSection(props) {
-  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName } = props;
+  const { width, classes, alertText, alertValue, successAlertValue, firebase, cleanerName, setShowLogoUploadSection, setShowPublishSection, setCleanerLogo } = props;
+  const [logo, setLogo] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const storageRef = firebase.storage().ref();
+
+  const handleUpload = () => {
+    const uploadTask = storageRef.child(`dry-cleaners/${cleanerName}/logo/${logo.name}`).put(logo)
+    uploadTask.on(
+        "state_changed",
+        snapshot => {
+            //progress function
+        },
+        error => {
+            //Error function
+            console.log(error);
+        },
+        () => {
+            storageRef
+                .child(`dry-cleaners/${cleanerName}/logo/${logo.name}`)
+                .getDownloadURL()
+                .then((url) => {
+                    //Redirect to Publish Screen
+                    setCleanerLogo(url)
+                    setShowLogoUploadSection(false);
+                    setShowPublishSection(true);
+                });
+        }
+    );
+  };
 
   return (
     <div className="lg-p-top" style={{ backgroundColor: "#FFFFFF" }}>
@@ -62,45 +91,47 @@ function ImageUploaderSection(props) {
         </Grid>
 
         <Grid
-          container
-          spacing={calculateSpacing(width)}
-          className={classes.gridContainer}
-        >
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            className={classes.cardWrapper}
+            data-aos="zoom-in-up"
+            data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
+            >
 
-             <div>
-              <div>
-                  <Grid
-                    className={classes.cardWrapper}
-                    item 
-                    xs={12} 
-                    sm={12} 
-                    md={4} 
-                    data-aos="zoom-in-up"
-                    data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
-                    >
-                      
-                    <div
-                      style={{
-                        display: "table",
-                        width: "100%",
-                        tableLayout: "fixed",
-                        borderSpacing: "10px"
-                      }}
-                    >
-                      <DropzoneArea
-                        acceptedFiles={['image/*']}
-                        dropzoneText={"Drag and drop an image here or click"}
-                        filesLimit={1}
-                        onChange={(files) => console.log('Files:', files)}
-                      />
-                    </div>
-                  </Grid>
+       
+            <Grid
+              className={classes.cardWrapper}
+              item 
+              xs={12} 
+              data-aos="zoom-in-up"
+              data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
+              >
+                
+              <div
+                style={{
+                  display: "table",
+                  width: "100%",
+                  tableLayout: "fixed",
+                  borderSpacing: "10px"
+                }}
+              >
+                <DropzoneArea
+                  acceptedFiles={['image/*']}
+                  dropzoneText={"Drag and drop an image here or click"}
+                  filesLimit={1}
+                  onChange={(files) => setLogo(files[0])}
+                />
               </div>
-              <div>
-                <Grid 
-                  item 
-                  xs={6}
-                  >
+            </Grid>
+            <div>
+              <Grid 
+                item 
+                xs={12}
+                >
+                  {isUploading ? 
+                  <CircularProgress color="secondary" /> : 
                   <Button
                     target="_blank"
                     round
@@ -109,14 +140,18 @@ function ImageUploaderSection(props) {
                     fullWidth
                     className={classes.extraLargeButton}
                     classes={{ label: classes.extraLargeButtonLabel }}
-                    // onClick={uploadMP3}
-                    // disabled={blobURL.length < 5 || isRecording}
+                    onClick={() => {
+                      setIsUploading(true)
+                      handleUpload()
+                    }}
+                    disabled={logo ? logo.length <= 0 : false}
                   >
-                    <b>Upload</b>
-                  </Button>
-                </Grid>
-              </div>
+                  <b>Upload</b>
+                </Button>
+                }
+              </Grid>
             </div>
+     
         </Grid>
       </div>
     </div>

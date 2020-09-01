@@ -97,7 +97,6 @@ const uploadMP3 = async () => {
     },
     e => console.error(e),
     () => {
-      alert("SUCCESSFUL UPLOAD")
       setBlobURL("");
       getVoiceOverList();
     }
@@ -231,8 +230,8 @@ const uploadMP3 = async () => {
                             className={classes.extraLargeButton}
                             classes={{ label: classes.extraLargeButtonLabel }}
                             color={recordingColor}
-                            onClick={() => {
-                              startRecordingStatus().then(() => {
+                            onClick={async () => {
+                              await startRecordingStatus().then(() => {
                                 startRecording();
                               });
                               startRecording();
