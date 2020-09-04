@@ -206,7 +206,6 @@ function Home(props) {
     db.collection('admins').doc(uid).update({
       company: fieldValue.delete()
     }).then(() => {
-      alert("hello world");
       setValue(null);
       setSuccessAlert(null);
       getCleanerName();
