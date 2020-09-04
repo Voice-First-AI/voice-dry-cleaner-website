@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "voice-dry-cleaner-website/build",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
