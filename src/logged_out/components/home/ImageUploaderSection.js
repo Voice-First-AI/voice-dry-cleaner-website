@@ -14,7 +14,6 @@ import {
   Alert,
   AlertTitle
 } from '@material-ui/lab';
-import calculateSpacing from "./calculateSpacing";
 import { DropzoneArea } from 'material-ui-dropzone';
 
 function ImageUploaderSection(props) {

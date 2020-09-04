@@ -14,7 +14,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import HomeIcon from "@material-ui/icons/Home";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import BookIcon from "@material-ui/icons/Book";
 import NavigationDrawer from "../../../shared/components/NavigationDrawer";
 import smoothScrollTop from "../../../shared/functions/smoothScrollTop";
 import firebase from 'firebase';
@@ -46,7 +45,6 @@ function NavBar(props) {
   const {
     classes,
     openRegisterDialog,
-    openLoginDialog,
     handleMobileDrawerOpen,
     handleMobileDrawerClose,
     mobileDrawerOpen,
@@ -54,8 +52,8 @@ function NavBar(props) {
   } = props;
 
   useEffect(() => {
-    getAuthStatus();
-  }, [menuItems]);
+    getAuthStatus();// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuItems, openRegisterDialog]);
 
   //
   //getCleanerName - Gets Admin Cleaner Name
@@ -194,8 +192,7 @@ NavBar.propTypes = {
   handleMobileDrawerClose: PropTypes.func,
   mobileDrawerOpen: PropTypes.bool,
   selectedTab: PropTypes.string,
-  openRegisterDialog: PropTypes.func.isRequired,
-  openLoginDialog: PropTypes.func.isRequired
+  openRegisterDialog: PropTypes.func.isRequired
 };
 
 export default withStyles(styles, { withTheme: true })(memo(NavBar));

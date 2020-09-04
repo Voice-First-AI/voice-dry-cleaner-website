@@ -112,7 +112,7 @@ function PublishSection(props) {
             data-aos-delay={isWidthUp("md", width) ? "400" : "0"}
             >
               
-              <img src={cleanerLogo}></img>
+              <img src={cleanerLogo} alt="logo"></img>
         </Grid>
         <Typography variant="h3" align="center">
           Voice Recordings

@@ -10,10 +10,8 @@ import {
   Box,
   withStyles,
   withWidth,
-  isWidthUp,
-  Link
+  isWidthUp
 } from "@material-ui/core";
-import headerImage from "../../dummy_data/images/headerImage.jpg";
 import WaveBorder from "../../../shared/components/WaveBorder";
 
 const styles = theme => ({
@@ -163,7 +161,7 @@ function HeadSection(props) {
                   </Grid>
                   <Hidden smDown>
                     <Grid item md={6}>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/3ojo4S8RG1M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe title="teaser" width="560" height="315" src="https://www.youtube.com/embed/3ojo4S8RG1M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </Grid>
                   </Hidden>
                 </Box>
