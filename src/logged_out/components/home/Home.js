@@ -57,8 +57,8 @@ function Home(props) {
   useEffect(() => {
     selectHome();
     getCleanerName();
-    getVoiceOverList();
-    getCleanerLogo();
+    getVoiceOverList();// eslint-disable-next-line
+    getCleanerLogo();// eslint-disable-next-line
   }, [selectHome, cleanerName, voiceOverIndex]);
 
   const btnClickFx = (cleanerName, cleanerPhoneNumber, setAlertValue, setSuccessAlertValue) => {
