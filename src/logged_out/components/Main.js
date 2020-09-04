@@ -10,7 +10,6 @@ import CookieConsent from "./cookies/CookieConsent";
 import dummyBlogPosts from "../dummy_data/blogPosts";
 import DialogSelector from "./register_login/DialogSelector";
 import Routing from "./Routing";
-import smoothScrollTop from "../../shared/functions/smoothScrollTop";
 
 AOS.init({ once: true });
 
@@ -30,12 +29,10 @@ function Main(props) {
   const [isCookieRulesDialogOpen, setIsCookieRulesDialogOpen] = useState(false);
 
   const selectHome = useCallback(() => {
-    smoothScrollTop();
     setSelectedTab("Home");
   }, [setSelectedTab]);
 
   const selectBlog = useCallback(() => {
-    smoothScrollTop();
     document.title = "WaVer - Blog";
     setSelectedTab("Blog");
   }, [setSelectedTab]);
