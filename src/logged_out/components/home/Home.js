@@ -86,7 +86,7 @@ function Home(props) {
     } else if (/\d/.test(cleanerName)){
       isValid = false;
       setAlertValue("Name of Dry Cleaner must not contain any DIGITS[0-9]. Please rename any digits to their alphabetical spelling. Please update your Name of Dry Cleaner & try again.")
-    } else if (!cleanerPhoneNumber.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)) {
+    } else if (!cleanerPhoneNumber.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im)) {
       isValid = false;
       setAlertValue("Phone Error: Invalid phone number. Please update your cleaner phone number & try again.")
     }

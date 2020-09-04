@@ -8,14 +8,12 @@ import {
   Hidden,
   withStyles,
   withWidth,
-  isWidthUp,
-  TextField
+  isWidthUp
 } from "@material-ui/core";
 import PhoneIcon from "@material-ui/icons/Phone";
 import MailIcon from "@material-ui/icons/Mail";
 import WaveBorder from "../../../shared/components/WaveBorder";
 import transitions from "@material-ui/core/styles/transitions";
-import ColoredButton from "../../../shared/components/ColoredButton";
 
 const styles = theme => ({
   footerInner: {
