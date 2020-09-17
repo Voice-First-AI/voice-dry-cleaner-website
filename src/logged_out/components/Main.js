@@ -7,9 +7,9 @@ import Footer from "./footer/Footer";
 import "aos/dist/aos.css";
 import CookieRulesDialog from "./cookies/CookieRulesDialog";
 import CookieConsent from "./cookies/CookieConsent";
-import dummyBlogPosts from "../dummy_data/blogPosts";
 import DialogSelector from "./register_login/DialogSelector";
 import Routing from "./Routing";
+import smoothScrollTop from "../../shared/functions/smoothScrollTop";
 
 AOS.init({ once: true });
 
@@ -24,7 +24,6 @@ function Main(props) {
   const { classes } = props;
   const [selectedTab, setSelectedTab] = useState(null);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
-  const [blogPosts, setBlogPosts] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(null);
   const [isCookieRulesDialogOpen, setIsCookieRulesDialogOpen] = useState(false);
 
@@ -67,23 +66,6 @@ function Main(props) {
     setDialogOpen("changePassword");
   }, [setDialogOpen]);
 
-  const fetchBlogPosts = useCallback(() => {
-    const blogPosts = dummyBlogPosts.map((blogPost) => {
-      let title = blogPost.title;
-      title = title.toLowerCase();
-      /* Remove unwanted characters, only accept alphanumeric and space */
-      title = title.replace(/[^A-Za-z0-9 ]/g, "");
-      /* Replace multi spaces with a single space */
-      title = title.replace(/\s{2,}/g, " ");
-      /* Replace space with a '-' symbol */
-      title = title.replace(/\s/g, "-");
-      blogPost.url = `/blog/post/${title}`;
-      blogPost.params = `?id=${blogPost.id}`;
-      return blogPost;
-    });
-    setBlogPosts(blogPosts);
-  }, [setBlogPosts]);
-
   const handleCookieRulesDialogOpen = useCallback(() => {
     setIsCookieRulesDialogOpen(true);
   }, [setIsCookieRulesDialogOpen]);
@@ -92,7 +74,7 @@ function Main(props) {
     setIsCookieRulesDialogOpen(false);
   }, [setIsCookieRulesDialogOpen]);
 
-  useEffect(fetchBlogPosts, []);
+  useEffect(smoothScrollTop, []);
 
   return (
     <div className={classes.wrapper}>
@@ -123,7 +105,6 @@ function Main(props) {
         handleMobileDrawerClose={handleMobileDrawerClose}
       />
       <Routing
-        blogPosts={blogPosts}
         selectHome={selectHome}
         selectBlog={selectBlog}
       />
